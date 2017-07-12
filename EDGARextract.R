@@ -1,20 +1,21 @@
 library(xslt)
-library(rvest)
 library(tidyverse)
 library(stringr)
 library(xlsx)
 library(RCurl)
+library(httr)
+library(rvest)
 
 ticker = "AAPL"
-  stopifnot(is.character(ticker))
-  directory = "http://www.sec.gov/cgi-bin/browse-edgar?"
+stopifnot(is.character(ticker))
+directory = "http://www.sec.gov/cgi-bin/browse-edgar?"
 
- CIK = ticker
- owner = "exclude"
- action = "getcompany"
- Find = "Search"
- type = "10"
- count = "40" # Options: 100, 80, 40, 20 - 100 filings is 23 years, 40 filings is 10 years
+CIK = ticker
+owner = "exclude"
+action = "getcompany"
+Find = "Search"
+type = "10"
+count = "40" # Options: 100, 80, 40, 20 - 100 filings is 23 years, 40 filings is 10 years
 final = paste0(directory,"action=",action,"&CIK=",CIK, "&type=",10,"&owner=",owner, "&count=",count)
 
 resp = read_html(final)
@@ -31,26 +32,25 @@ table = resp %>%
 
 table = table[[1]] %>% mutate(Acc_No = str_extract(Description, '(?<=Acc-no: )[^\\s]+'), Acc_No = gsub("-","",Acc_No))
 
+download.file(url="https://www.sec.gov/include/InstanceReport.xslt", destfile = "temp/style.xslt", method="curl")
+
 base = "https://www.sec.gov/Archives/edgar/data/"
-Q_urls = K_urls = c()
+urls = c()
 for (i in 1:nrow(table)) {
         accno = table$Acc_No[i]
         new_url = paste0(base,CIK_code,"/",accno)    
         
         if (grepl("10-Q", table$Filings[i])) {
-            Q_urls = c(Q_urls, new_url)
+            urls = c(urls, new_url)
         }
-        else if (grepl("10-K", table$Filings[i])) {
-            K_urls = c(K_urls, new_url)
-        }
+        
 }
 
 build_sales_hist = function(url_list) {
-    download.file(url="https://www.sec.gov/include/InstanceReport.xslt", destfile = "temp/style.xslt", method="curl")
     for (url in url_list) {
-        url = paste0(url,"/R1.htm")
+        url_check = paste0(url,"/R1.htm")
         print(url)
-        if (url.exists(url)) {
+        if (GET(url_check)$status_code == 200) {
             print("Is a htm version.")
             data = find_table_R_htm(url)
         }
@@ -93,7 +93,7 @@ find_table_R_xml = function(url) {
         download.file(url=R_url, destfile = "temp/doc.xml", method="curl")
         doc <- read_xml("temp/doc.xml", package = "xslt")
         style <- read_xml("temp/style.xslt", package = "xslt")
-        table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% html_table(fill=TRUE)
+        table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% html_table(fill=TRUE) %>% .[[1]]
         names(table) = c("one","two","three","four")
         if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
             return(table)   
