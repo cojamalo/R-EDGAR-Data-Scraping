@@ -79,7 +79,9 @@ find_table_R_htm = function(url) {
             html_nodes(".report") %>%
             html_table(fill=TRUE) %>%
             .[[1]]
-        names(table) = c("one","two","three","four")
+        colnames(table)[1] = "one"
+        colnames(table)[2] = "two"
+        colnames(table)[3] = "three"
         if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
             return(table)   
         }
@@ -94,7 +96,9 @@ find_table_R_xml = function(url) {
         doc <- read_xml("temp/doc.xml", package = "xslt")
         style <- read_xml("temp/style.xslt", package = "xslt")
         table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% html_table(fill=TRUE) %>% .[[1]]
-        names(table) = c("one","two","three","four")
+        colnames(table)[1] = "one"
+        colnames(table)[2] = "two"
+        colnames(table)[3] = "three"
         if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
             return(table)   
         }
