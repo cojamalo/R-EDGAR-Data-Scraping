@@ -1,6 +1,7 @@
 library(rvest)
 library(tidyverse)
 library(stringr)
+library(xlsx)
 
 ticker = "AAPL"
   stopifnot(is.character(ticker))
@@ -42,21 +43,27 @@ for (i in 1:nrow(table)) {
         }
 }
 
-for (K_url in K_urls) {
-    # 10-K VERSION
-    library(xlsx)
-    download.file("https://www.sec.gov/Archives/edgar/data/91142/000119312517162429/Financial_Report.xlsx", destfile = "finrepo.xlsx")
-    temp = read.xlsx("finrepo.xlsx", sheetName = "CONSOLIDATED STATEMENT OF EARNI")
-    temp
-    
+
+
+K_sheetName = "CONSOLIDATED STATEMENT OF EARNI"
+Q_sheetName = "CONDENSED CONSOLIDATED STATEMEN"
+
+get_xlsx_tables = function(url_list, sheetName) {
+    for (url in url_list) {
+        download.file(url=url, destfile = "/temp/finrepo.xlsx")
+        table = read.xlsx("/temp/finrepo.xlsx", sheetName = sheetName)
+        if (is.null(output)) {
+        output = table    
+        }
+        else {
+        output = cbind(output, table[,-1])    
+        }
+    }
+    return (output)
 }
 
 
 
-# 10-Q VERSION
-library(xlsx)
-download.file("https://www.sec.gov/Archives/edgar/data/91142/000119312517162429/Financial_Report.xlsx", destfile = "finrepo.xlsx")
-temp = read.xlsx("finrepo.xlsx", sheetName = "CONDENSED CONSOLIDATED STATEMEN")
-temp
+
 
 
