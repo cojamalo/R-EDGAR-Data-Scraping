@@ -7,6 +7,7 @@ library(httr)
 library(rvest)
 
 ticker = "AAPL"
+start_date = "2009-01-01" # date when xml and htm data started beign used
 stopifnot(is.character(ticker))
 directory = "http://www.sec.gov/cgi-bin/browse-edgar?"
 
@@ -40,10 +41,9 @@ for (i in 1:nrow(table)) {
         accno = table$Acc_No[i]
         new_url = paste0(base,CIK_code,"/",accno)    
         
-        if (grepl("10-Q", table$Filings[i])) {
+        if (table$`Filing Date`[i] >= start_date) {
             urls = c(urls, new_url)
         }
-        
 }
 
 build_sales_hist = function(url_list) {
