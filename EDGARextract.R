@@ -112,11 +112,12 @@ find_table_R_xml = function(url_df_row) {
 
 
 untidy_fin_hist = build_sales_hist(url_data)
-write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",")
+write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
 
 library(data.table)
 untidy_fin_hist = fread('untidy_fin_hist.csv')
-untidy_fin_hist %>% tbl_df %>% gather(date, value, -record, -V1) %>% select(date, record, value)
+untidy_fin_hist = untidy_fin_hist %>% tbl_df %>% gather(date, value, -record, -V1) %>% select(date, record, value) %>% filter(!is.na(value)) %>% spread(record, value)
+unformated_fin_hist = untidy_fin_hist[,apply(untidy_fin_hist, 2, function(x) {mean(is.na(x))}) == 0]
 
 
 
