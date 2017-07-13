@@ -96,11 +96,11 @@ find_table_R_htm = function(url_df_row) {
 }
 
 find_table_R_xml = function(url_df_row) {
+    style <- read_xml("temp/style.xslt", package = "xslt")
     for (i in 1:10) {
         R_url = paste0(url_df_row$url,"/R",as.character(i),".xml")
         download.file(url=R_url, destfile = "temp/doc.xml", method="curl")
         doc <- read_xml("temp/doc.xml", package = "xslt")
-        style <- read_xml("temp/style.xslt", package = "xslt")
         table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% as.character %>% htmltab(1)
         names(table) = c("record", url_df_row$date)
         if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
