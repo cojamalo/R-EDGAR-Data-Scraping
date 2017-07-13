@@ -27,7 +27,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "AAPL"
+ticker = "XOM"
 start_date = "2012-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -100,37 +100,68 @@ rm(form_urls)
 
 # Extract table within form matching key words
 earnings_list = c("net loss", "net earnings", "net income including noncontrolling interests", "consolidated net income")
-gross_list = c("Gross margin", "Income from Operations", "Operating Income", "Income before income taxes", "Operating income", "Loss from operations")
-rev_list = c("Sales to customers", "Net sales","Total revenues","Revenue", "Total revenues and other income","Total net sales and revenue","Total operating revenues","Net revenues","Revenues")
+gross_list = c("gross margin", "income from operations", "operating income", "income before income taxes", "operating income", "loss from operations", "total revenues and other income")
+rev_list = c("sales to customers", "sales and other operating revenue","net sales","total revenues","revenue", "total revenues and other income","total net sales and revenue","total operating revenues","net revenues","revenues")
+cost_list = c("cost of products sold", "cost of sales", "cost of revenues", "operating expenses", "costs and other deductions", "costs and expenses", "interest expense", "total operating expenses")
 
 regex_cond1 = "net income"
 regex_cond2 = "gross profit"
-regex_cond3 = "Total revenue"
+regex_cond3 = "total revenue"
+regex_cond4 = "cost of revenue"
 for(word in earnings_list) { regex_cond1 = paste0(regex_cond1,"|",word) }
-for(word in gross_list) { regex_cond1 = paste0(regex_cond2,"|",word) }
-for(word in rev_list) { regex_cond1 = paste0(regex_cond3,"|",word) }
+for(word in gross_list) { regex_cond2 = paste0(regex_cond2,"|",word) }
+for(word in rev_list) { regex_cond3 = paste0(regex_cond3,"|",word) }
+for(word in cost_list) { regex_cond4 = paste0(regex_cond3,"|",word) }
 
 table_list = list()
-for (i in 1:length(url_data)) {
-    download.file(url_data$form_urls[i], destfile = "temp/temp_form.htm")
-    form_data = read_html("temp/temp_form.htm") %>%
+for (i in 1:nrow(url_data)) {
+    #download.file(url_data$form_urls[i], destfile = "temp/temp_form.htm")
+    form_data = read_html(url_data$form_urls[i]) %>%
         html_nodes("table") 
-    for (i in 1:length(form_data)) {
-        form_table = form_data[i] %>%
+    for (j in 1:length(form_data)) {
+        form_table = form_data[j] %>%
             html_table(fill=TRUE) %>%
-            .[[1]]
-        if ((any(grepl(regex_cond1, form_table[,1], ignore.case = TRUE)) & any(grepl(regex_cond2, form_table[,1], ignore.case = TRUE)) & any(grepl(regex_cond3, form_table[,1], ignore.case = TRUE)))) {
-            table_match = list(form_table)
-            table_list = list(table_list, url_data$date[i]=form_table)
+            .[[1]] %>%
+            apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
+            as.data.frame(stringsAsFactors=FALSE) %>%
+            mutate_if(is.character, tolower) %>%
+            apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+            as.data.frame(stringsAsFactors=FALSE)
+        if ((any(grepl(regex_cond1, form_table, ignore.case = TRUE)) & any(grepl(regex_cond2, form_table, ignore.case = TRUE)) & any(grepl(regex_cond3, form_table, ignore.case = TRUE)))) {
+            print(url_data$form_urls[i])
+            table_list[[url_data$form_urls[i]]] = form_table
             break
         }
     }
 }
 
+print(paste("All revenue tables found for all urls?:",as.character(nrow(url_data) == length(table_list))))
+# Troubleshooting
+url_data$form_urls[!(url_data$form_urls %in% names(table_list))]
 
+# troubleshoot specific form
+form_data = read_html("https://www.sec.gov/Archives/edgar/data/34088/000119312512078102/d257530d10k.htm") %>% html_nodes("table") 
 
-
-
+for (j in 1:length(form_data)) {
+    form_table = form_data[j] %>%
+        html_table(fill=TRUE) %>%
+        .[[1]] %>%
+        apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
+        as.data.frame(stringsAsFactors=FALSE) %>%
+        mutate_if(is.character, tolower) %>%
+        apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+        as.data.frame(stringsAsFactors=FALSE)
+    if ((any(grepl(regex_cond1, form_table, ignore.case = TRUE)) &
+         any(grepl(regex_cond2, form_table, ignore.case = TRUE)) &
+         any(grepl(regex_cond3, form_table, ignore.case = TRUE)) &
+         any(grepl(regex_cond4, form_table, ignore.case = TRUE)))) {
+        # check if any match 1st list
+        print("Yes!")
+        print(j)
+         
+    } 
+        
+}
 
 
 build_sales_hist = function(url_df) {
