@@ -79,7 +79,7 @@ url_data = url_data %>% mutate_all(as.character)
 rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i, new_url, owner, resp, start_date, ticker, type)
 
 # Extract the direct form link from the index url for each form in url_data
-new_col = c()
+form_urls = c()
 for (i in 1:nrow(url_data)) {
     form_file = read_html(url_data$url_index[i]) %>%
                     html_nodes(".tableFile") %>%
@@ -92,10 +92,11 @@ for (i in 1:nrow(url_data)) {
         print("error - bad link")
         break
         }
-    new_col = c(new_col, form_url)
+    form_urls = c(form_urls, form_url)
 }
-url_data = cbind(url_data, as.character(new_col))
-rm(new_col)
+url_data = cbind(url_data, form_urls)
+url_data$form_urls = as.character(utls_data$form_urls)
+rm(form_urls)
 
 # Extract table within form matching key words
 
@@ -112,8 +113,8 @@ for(word in gross_list) { regex_cond1 = paste0(regex_cond2,"|",word) }
 for(word in rev_list) { regex_cond1 = paste0(regex_cond3,"|",word) }
 
 
-for (url in url_data$new_col) {
-    download.file(url, destfile = "temp/temp_form.htm")
+for (i in 1:length(url_data)) {
+    download.file(url_data$, destfile = "temp/temp_form.htm")
     form_data = read_html("temp/temp_form.htm") %>%
         html_nodes("table") 
     for (i in 1:length(form_data)) {
