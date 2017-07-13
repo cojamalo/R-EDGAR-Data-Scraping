@@ -7,6 +7,7 @@ library(RCurl)
 library(httr)
 library(rvest)
 
+
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ticker = "AAPL"
@@ -132,15 +133,5 @@ get_xlsx_tables = function(url_list, sheetNames) {
     }
     return (output)
 }
-get_xlsx_tables(K_urls, K_sheetNames)
 
-
-url = "https://www.sec.gov/Archives/edgar/data/320193/000119312511104388"
-R_url = paste0(url,"/R",as.character(2),".xml")
-download.file(url=R_url, destfile = "temp/doc.xml", method="curl")
-doc <- read_xml("temp/doc.xml", package = "xslt")
-style <- read_xml("temp/style.xslt", package = "xslt")
-table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% as.character %>% htmltab
-
-xml_xslt(doc, style) %>% as.character() 
 
