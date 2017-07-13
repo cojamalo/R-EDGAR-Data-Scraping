@@ -95,12 +95,10 @@ for (i in 1:nrow(url_data)) {
     form_urls = c(form_urls, form_url)
 }
 url_data = cbind(url_data, form_urls)
-url_data$form_urls = as.character(utls_data$form_urls)
+url_data$form_urls = as.character(url_data$form_urls)
 rm(form_urls)
 
 # Extract table within form matching key words
-
-
 earnings_list = c("net loss", "net earnings", "net income including noncontrolling interests", "consolidated net income")
 gross_list = c("Gross margin", "Income from Operations", "Operating Income", "Income before income taxes", "Operating income", "Loss from operations")
 rev_list = c("Sales to customers", "Net sales","Total revenues","Revenue", "Total revenues and other income","Total net sales and revenue","Total operating revenues","Net revenues","Revenues")
@@ -112,9 +110,9 @@ for(word in earnings_list) { regex_cond1 = paste0(regex_cond1,"|",word) }
 for(word in gross_list) { regex_cond1 = paste0(regex_cond2,"|",word) }
 for(word in rev_list) { regex_cond1 = paste0(regex_cond3,"|",word) }
 
-
+table_list = list()
 for (i in 1:length(url_data)) {
-    download.file(url_data$, destfile = "temp/temp_form.htm")
+    download.file(url_data$form_urls[i], destfile = "temp/temp_form.htm")
     form_data = read_html("temp/temp_form.htm") %>%
         html_nodes("table") 
     for (i in 1:length(form_data)) {
@@ -123,6 +121,7 @@ for (i in 1:length(url_data)) {
             .[[1]]
         if ((any(grepl(regex_cond1, form_table[,1], ignore.case = TRUE)) & any(grepl(regex_cond2, form_table[,1], ignore.case = TRUE)) & any(grepl(regex_cond3, form_table[,1], ignore.case = TRUE)))) {
             table_match = list(form_table)
+            table_list = list(table_list, url_data$date[i]=form_table)
             break
         }
     }
