@@ -70,7 +70,7 @@ build_sales_hist = function(url_df) {
                output = data
            }
            else {
-               output = left_join(output, data[,1:2], by="Measure Type")
+               output = left_join(output, data[,1:2], by="record")
            }
         }
     } 
@@ -85,7 +85,7 @@ find_table_R_htm = function(url_df_row) {
             html_nodes(".report") %>%
             as.character %>%
             htmltab(1)
-        names(table) = c("Measure Type", url_df_row$date)
+        names(table) = c("record", url_df_row$date)
         if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
             return(table[,1:2])   
         }
@@ -100,7 +100,7 @@ find_table_R_xml = function(url_df_row) {
         doc <- read_xml("temp/doc.xml", package = "xslt")
         style <- read_xml("temp/style.xslt", package = "xslt")
         table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% as.character %>% htmltab(1)
-        names(table) = c("Measure Type", url_df_row$date)
+        names(table) = c("record", url_df_row$date)
         if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
             return(table[,1:2])   
         }
@@ -112,6 +112,9 @@ find_table_R_xml = function(url_df_row) {
 untidy_fin_hist = build_sales_hist(url_data)
 write.csv(test,file='untidy_fin_hist.csv', sep = ",")
 
+library(data.table)
+untidy_fin_hist = fread('untidy_fin_hist.csv')
+untidy_fin_hist %>% tbl_df %>% gather(date, value, -`Measure Type`, -V1) %>% select(date, `Measure Type`, )
 
 
 
