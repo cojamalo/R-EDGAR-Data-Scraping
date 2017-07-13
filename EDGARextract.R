@@ -27,7 +27,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "XOM"
+ticker = "JNJ"
 start_date = "2012-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -113,71 +113,77 @@ for(word in gross_list) { regex_cond2 = paste0(regex_cond2,"|",word) }
 for(word in rev_list) { regex_cond3 = paste0(regex_cond3,"|",word) }
 for(word in cost_list) { regex_cond4 = paste0(regex_cond3,"|",word) }
 
-table_list = list()
-for (i in 1:nrow(url_data)) {
-    #download.file(url_data$form_urls[i], destfile = "temp/temp_form.htm")
-    form_data = read_html(url_data$form_urls[i]) %>%
-        html_nodes("table") 
-    for (j in 1:length(form_data)) {
-        form_table = form_data[j] %>%
-            html_table(fill=TRUE) %>%
-            .[[1]] %>%
-            apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
-            as.data.frame(stringsAsFactors=FALSE) %>%
-            mutate_if(is.character, tolower) %>%
-            apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
-            as.data.frame(stringsAsFactors=FALSE)
-        if ((any(grepl(regex_cond1, form_table, ignore.case = TRUE)) & any(grepl(regex_cond2, form_table, ignore.case = TRUE)) & any(grepl(regex_cond3, form_table, ignore.case = TRUE)))) {
-            print(url_data$form_urls[i])
-            table_list[[url_data$form_urls[i]]] = form_table
-            break
-        }
-    }
-}
-
-print(paste("All revenue tables found for all urls?:",as.character(nrow(url_data) == length(table_list))))
-# Troubleshooting
-url_data$form_urls[!(url_data$form_urls %in% names(table_list))]
-
-# troubleshoot specific form
-form_data = read_html("https://www.sec.gov/Archives/edgar/data/34088/000119312512078102/d257530d10k.htm") %>% html_nodes("table") 
-
-for (j in 1:length(form_data)) {
-    form_table = form_data[j] %>%
-        html_table(fill=TRUE) %>%
-        .[[1]] %>%
-        apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
-        as.data.frame(stringsAsFactors=FALSE) %>%
-        mutate_if(is.character, tolower) %>%
-        apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
-        as.data.frame(stringsAsFactors=FALSE)
-    if ((any(grepl(regex_cond1, form_table, ignore.case = TRUE)) &
-         any(grepl(regex_cond2, form_table, ignore.case = TRUE)) &
-         any(grepl(regex_cond3, form_table, ignore.case = TRUE)) &
-         any(grepl(regex_cond4, form_table, ignore.case = TRUE)))) {
-        # check if any match 1st list
-        print("Yes!")
-        print(j)
-         
-    } 
-        
-}
+# table_list = list()
+# for (i in 1:nrow(url_data)) {
+#     #download.file(url_data$form_urls[i], destfile = "temp/temp_form.htm")
+#     form_data = read_html(url_data$form_urls[i]) %>%
+#         html_nodes("table") 
+#     for (j in 1:length(form_data)) {
+#         form_table = form_data[j] %>%
+#             html_table(fill=TRUE) %>%
+#             .[[1]] %>%
+#             apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
+#             as.data.frame(stringsAsFactors=FALSE) %>%
+#             mutate_if(is.character, tolower) %>%
+#             apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+#             as.data.frame(stringsAsFactors=FALSE)
+#         if ((any(grepl(regex_cond1, form_table, ignore.case = TRUE)) & any(grepl(regex_cond2, form_table, ignore.case = TRUE)) & any(grepl(regex_cond3, form_table, ignore.case = TRUE)))) {
+#             print(url_data$form_urls[i])
+#             table_list[[url_data$form_urls[i]]] = form_table
+#             break
+#         }
+#     }
+# }
+# 
+# print(paste("All revenue tables found for all urls?:",as.character(nrow(url_data) == length(table_list))))
+# # Troubleshooting
+# url_data$form_urls[!(url_data$form_urls %in% names(table_list))]
+# 
+# # troubleshoot specific form
+# form_data = read_html("https://www.sec.gov/Archives/edgar/data/34088/000119312512078102/d257530d10k.htm") %>% html_nodes("table") 
+# 
+# for (j in 1:length(form_data)) {
+#     form_table = form_data[j] %>%
+#         html_table(fill=TRUE) %>%
+#         .[[1]] %>%
+#         apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
+#         as.data.frame(stringsAsFactors=FALSE) %>%
+#         mutate_if(is.character, tolower) %>%
+#         apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+#         as.data.frame(stringsAsFactors=FALSE)
+#     if ((any(grepl(regex_cond1, form_table, ignore.case = TRUE)) &
+#          any(grepl(regex_cond2, form_table, ignore.case = TRUE)) &
+#          any(grepl(regex_cond3, form_table, ignore.case = TRUE)) &
+#          any(grepl(regex_cond4, form_table, ignore.case = TRUE)))) {
+#         # check if any match 1st list
+#         print("Yes!")
+#         print(j)
+#          
+#     } 
+#         
+# }
 
 
 build_sales_hist = function(url_df) {
     for (i in 1:nrow(url_df)) {
-        url_check = paste0(url_df$url[i],"/R1.htm")
-        print(url_df$url[i])
-        if (GET(url_check)$status_code == 200) {
+        htm_check = paste0(url_df$url_base[i],"/R1.htm")
+        xml_check = paste0(url_df$url_base[i],"/R1.xml")
+        print(url_df$url_base[i])
+        if (GET(htm_check)$status_code == 200) {
             print("Is a htm version.")
             data = find_table_R_htm(url_df[i,])
         }
-        else {
+        else if (GET(xml_check)$status_code == 200) {
             print("Is an xml version.")
             data = find_table_R_xml(url_df[i,])  
         }
+        else {
+            data == 0
+        }
+        
         if (data == 0) {}
         else {
+            data[,2] = as.numeric(gsub("\\D", "", data[,2]))
            if (!exists("output")) {
                output = data
            }
@@ -191,14 +197,31 @@ build_sales_hist = function(url_df) {
 
 find_table_R_htm = function(url_df_row) {
     for (i in 1:10) {
-        R_url = paste0(url_df_row$url,"/R",as.character(i),".htm")
-        resp_R = read_html(R_url)
-        table = resp_R %>% 
+        R_url = paste0(url_df_row$url_base,"/R",as.character(i),".htm")
+        table = read_html(R_url) %>% 
             html_nodes(".report") %>%
-            as.character %>%
-            htmltab(1)
+            html_table(fill=TRUE) %>%
+            .[[1]]
+        if (names(table)[1] == names(table)[2]) {
+            table[,2] = NULL        
+        }
+        for (i in 1:ncol(table)) {
+            colnames(table)[i] = as.character(i)
+            }    
+        
+        table = table %>%
+            apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
+            as.data.frame(stringsAsFactors=FALSE) %>%
+            mutate_if(is.character, tolower) %>%
+            apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+            as.data.frame(stringsAsFactors=FALSE)
         names(table) = c("record", url_df_row$date)
-        if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
+        #colnames(table)[1] = "record"
+        #colnames(table)[2] = url_df_row$date
+        if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
+             any(grepl(regex_cond2, table, ignore.case = TRUE)) &
+             any(grepl(regex_cond3, table, ignore.case = TRUE)) &
+             any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
             return(table[,1:2])   
         }
     }
@@ -211,9 +234,29 @@ find_table_R_xml = function(url_df_row) {
         R_url = paste0(url_df_row$url,"/R",as.character(i),".xml")
         download.file(url=R_url, destfile = "temp/doc.xml", method="curl")
         doc <- read_xml("temp/doc.xml", package = "xslt")
-        table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% as.character %>% htmltab(1)
+        table <- xml_xslt(doc, style) %>% 
+            as.character %>%
+            read_html %>% 
+            html_nodes(".report") %>%
+            html_table(fill=TRUE) %>%
+            .[[1]]
+        if (names(table)[1] == names(table)[2]) {
+            table[,2] = NULL        
+        }
+        for (i in 1:ncol(table)) {
+                colnames(table)[i] = as.character(i)
+        }    
+        table = table %>%
+            apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
+            as.data.frame(stringsAsFactors=FALSE) %>%
+            mutate_if(is.character, tolower) %>%
+            apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+            as.data.frame(stringsAsFactors=FALSE)
         names(table) = c("record", url_df_row$date)
-        if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
+        if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
+             any(grepl(regex_cond2, table, ignore.case = TRUE)) &
+             any(grepl(regex_cond3, table, ignore.case = TRUE)) &
+             any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
             return(table[,1:2])   
         }
     }
@@ -222,6 +265,9 @@ find_table_R_xml = function(url_df_row) {
 
 
 untidy_fin_hist = build_sales_hist(url_data)
+head(untidy_fin_hist)
+
+
 write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
 
 library(data.table)
@@ -236,14 +282,5 @@ fin_hist_k_to_q= fin_hist %>% mutate_if(is.numeric,funs(. - (lag(.,1) + lag(.,2)
 final = rbind(fin_hist_q, fin_hist_k_to_q) %>% arrange(desc(date))
 
 
-CIK_code = resp %>%
-    html_nodes("#documentsbutton") %>%
-    .[[1]] %>% html_attr("href")
-
-CIK_code = str_extract(CIK_code, '(?<=data\\/)[^\\/]+')
-
-table = resp %>% 
-    html_nodes(".tableFile2") %>%
-    html_table()
 
 
