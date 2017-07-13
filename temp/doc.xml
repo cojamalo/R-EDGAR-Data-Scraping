@@ -2,8 +2,8 @@
 <InstanceReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Version>1.0.0.3</Version>
   <hasSegments>false</hasSegments>
-  <ReportName>Statement Of Financial Position Classified (USD $)</ReportName>
-  <RoundingOption>In Millions</RoundingOption>
+  <ReportName>Statement Of Financial Position Classified (Parenthetical) (USD $)</ReportName>
+  <RoundingOption>In Millions, except Share data</RoundingOption>
   <Columns>
     <Column>
       <LabelColumn>false</LabelColumn>
@@ -18,7 +18,17 @@
       <Scenarios />
       <Units>
         <Unit>
-          <UnitID>iso4217_USD</UnitID>
+          <UnitID>Shares</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
           <UnitType>Standard</UnitType>
           <StandardMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -28,7 +38,7 @@
           <Scale>0</Scale>
         </Unit>
         <Unit>
-          <UnitID>iso4217_USD_per_shares</UnitID>
+          <UnitID>USDperShareItemType</UnitID>
           <UnitType>Divide</UnitType>
           <NumeratorMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -40,16 +50,6 @@
             <MeasureValue>shares</MeasureValue>
             <MeasureNamespace />
           </DenominatorMeasure>
-          <Scale>0</Scale>
-        </Unit>
-        <Unit>
-          <UnitID>shares</UnitID>
-          <UnitType>Standard</UnitType>
-          <StandardMeasure>
-            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
-            <MeasureValue>shares</MeasureValue>
-            <MeasureNamespace />
-          </StandardMeasure>
           <Scale>0</Scale>
         </Unit>
       </Units>
@@ -67,7 +67,17 @@
       <Scenarios />
       <Units>
         <Unit>
-          <UnitID>iso4217_USD</UnitID>
+          <UnitID>Shares</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
           <UnitType>Standard</UnitType>
           <StandardMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -77,7 +87,7 @@
           <Scale>0</Scale>
         </Unit>
         <Unit>
-          <UnitID>iso4217_USD_per_shares</UnitID>
+          <UnitID>USDperShareItemType</UnitID>
           <UnitType>Divide</UnitType>
           <NumeratorMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -91,77 +101,18 @@
           </DenominatorMeasure>
           <Scale>0</Scale>
         </Unit>
-        <Unit>
-          <UnitID>shares</UnitID>
-          <UnitType>Standard</UnitType>
-          <StandardMeasure>
-            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
-            <MeasureValue>shares</MeasureValue>
-            <MeasureNamespace />
-          </StandardMeasure>
-          <Scale>0</Scale>
-        </Unit>
       </Units>
     </Column>
   </Columns>
   <Rows>
     <Row>
-      <Id>6</Id>
-      <Label>Current assets:</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_AssetsCurrentAbstract</ElementName>
+      <Id>5</Id>
+      <Label>Accounts receivable, allowances</Label>
+      <Level>3</Level>
+      <ElementName>us-gaap_AllowanceForDoubtfulAccountsReceivableCurrent</ElementName>
       <ElementPrefix>us-gaap</ElementPrefix>
       <IsBaseElement>true</IsBaseElement>
-      <BalanceType>na</BalanceType>
-      <PeriodType>duration</PeriodType>
-      <ElementDataType>string</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>true</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>false</IsNumeric>
-          <NumericAmount>0</NumericAmount>
-          <RoundedNumericAmount>0</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>false</IsNumeric>
-          <NumericAmount>0</NumericAmount>
-          <RoundedNumericAmount>0</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>7</Id>
-      <Label>Cash and cash equivalents</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_CashAndCashEquivalentsAtCarryingValue</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
+      <BalanceType>credit</BalanceType>
       <PeriodType>instant</PeriodType>
       <ElementDataType>monetary</ElementDataType>
       <ShortDefinition>No definition available.</ShortDefinition>
@@ -179,8 +130,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>5263000000</NumericAmount>
-          <RoundedNumericAmount>5263</RoundedNumericAmount>
+          <NumericAmount>52000000</NumericAmount>
+          <RoundedNumericAmount>52</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -191,8 +142,108 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>11875000000</NumericAmount>
-          <RoundedNumericAmount>11875</RoundedNumericAmount>
+          <NumericAmount>47000000</NumericAmount>
+          <RoundedNumericAmount>47</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+      </Cells>
+      <ElementDefenition>No definition available.</ElementDefenition>
+      <ElementReferences>No authoritative reference available.</ElementReferences>
+      <IsTotalLabel>false</IsTotalLabel>
+    </Row>
+    <Row>
+      <Id>6</Id>
+      <Label>Common stock, no par value</Label>
+      <Level>3</Level>
+      <ElementName>us-gaap_CommonStockNoParValue</ElementName>
+      <ElementPrefix>us-gaap</ElementPrefix>
+      <IsBaseElement>true</IsBaseElement>
+      <BalanceType>na</BalanceType>
+      <PeriodType>instant</PeriodType>
+      <ElementDataType>decimal</ElementDataType>
+      <ShortDefinition>No definition available.</ShortDefinition>
+      <IsReportTitle>false</IsReportTitle>
+      <IsSegmentTitle>false</IsSegmentTitle>
+      <IsSubReportEnd>false</IsSubReportEnd>
+      <IsCalendarTitle>false</IsCalendarTitle>
+      <IsTuple>false</IsTuple>
+      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
+      <IsBeginningBalance>false</IsBeginningBalance>
+      <IsEndingBalance>false</IsEndingBalance>
+      <IsEPS>true</IsEPS>
+      <Cells>
+        <Cell>
+          <Id>1</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>0</NumericAmount>
+          <RoundedNumericAmount>0</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>2</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>0</NumericAmount>
+          <RoundedNumericAmount>0</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+      </Cells>
+      <ElementDefenition>No definition available.</ElementDefenition>
+      <ElementReferences>No authoritative reference available.</ElementReferences>
+      <IsTotalLabel>false</IsTotalLabel>
+    </Row>
+    <Row>
+      <Id>7</Id>
+      <Label>Common stock, shares authorized</Label>
+      <Level>3</Level>
+      <ElementName>us-gaap_CommonStockSharesAuthorized</ElementName>
+      <ElementPrefix>us-gaap</ElementPrefix>
+      <IsBaseElement>true</IsBaseElement>
+      <BalanceType>na</BalanceType>
+      <PeriodType>instant</PeriodType>
+      <ElementDataType>shares</ElementDataType>
+      <ShortDefinition>No definition available.</ShortDefinition>
+      <IsReportTitle>false</IsReportTitle>
+      <IsSegmentTitle>false</IsSegmentTitle>
+      <IsSubReportEnd>false</IsSubReportEnd>
+      <IsCalendarTitle>false</IsCalendarTitle>
+      <IsTuple>false</IsTuple>
+      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
+      <IsBeginningBalance>false</IsBeginningBalance>
+      <IsEndingBalance>false</IsEndingBalance>
+      <IsEPS>false</IsEPS>
+      <Cells>
+        <Cell>
+          <Id>1</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>1800000000</NumericAmount>
+          <RoundedNumericAmount>1800000000.00</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>2</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>1800000000</NumericAmount>
+          <RoundedNumericAmount>1800000000.00</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -206,14 +257,14 @@
     </Row>
     <Row>
       <Id>8</Id>
-      <Label>Short-term marketable securities</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_AvailableForSaleSecuritiesCurrent</ElementName>
+      <Label>Common stock, shares issued</Label>
+      <Level>3</Level>
+      <ElementName>us-gaap_CommonStockSharesIssued</ElementName>
       <ElementPrefix>us-gaap</ElementPrefix>
       <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
+      <BalanceType>na</BalanceType>
       <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
+      <ElementDataType>shares</ElementDataType>
       <ShortDefinition>No definition available.</ShortDefinition>
       <IsReportTitle>false</IsReportTitle>
       <IsSegmentTitle>false</IsSegmentTitle>
@@ -229,8 +280,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>18201000000</NumericAmount>
-          <RoundedNumericAmount>18201</RoundedNumericAmount>
+          <NumericAmount>899805500</NumericAmount>
+          <RoundedNumericAmount>899805500.00</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -241,8 +292,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>10236000000</NumericAmount>
-          <RoundedNumericAmount>10236</RoundedNumericAmount>
+          <NumericAmount>888325973</NumericAmount>
+          <RoundedNumericAmount>888325973.00</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -256,613 +307,14 @@
     </Row>
     <Row>
       <Id>9</Id>
-      <Label>Accounts receivable, less allowances of $52 and $47, respectively</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_AccountsReceivableNetCurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>3361000000</NumericAmount>
-          <RoundedNumericAmount>3361</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>2422000000</NumericAmount>
-          <RoundedNumericAmount>2422</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>10</Id>
-      <Label>Inventories</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_InventoryNet</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>455000000</NumericAmount>
-          <RoundedNumericAmount>455</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>509000000</NumericAmount>
-          <RoundedNumericAmount>509</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>11</Id>
-      <Label>Deferred tax assets</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_DeferredTaxAssetsNetCurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>1135000000</NumericAmount>
-          <RoundedNumericAmount>1135</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>1044000000</NumericAmount>
-          <RoundedNumericAmount>1044</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>12</Id>
-      <Label>Other current assets</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_OtherAssetsCurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>3140000000</NumericAmount>
-          <RoundedNumericAmount>3140</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>3920000000</NumericAmount>
-          <RoundedNumericAmount>3920</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>13</Id>
-      <Label>Total current assets</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_AssetsCurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>31555000000</NumericAmount>
-          <RoundedNumericAmount>31555</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>30006000000</NumericAmount>
-          <RoundedNumericAmount>30006</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>true</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>14</Id>
-      <Label>Long-term marketable securities</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_AvailableForSaleSecuritiesNoncurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>10528000000</NumericAmount>
-          <RoundedNumericAmount>10528</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>2379000000</NumericAmount>
-          <RoundedNumericAmount>2379</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>15</Id>
-      <Label>Property, plant and equipment, net</Label>
-      <Level>4</Level>
-      <ElementName>aapl_PropertyPlantAndEquipmentAndCapitalizedSoftwareNet</ElementName>
-      <ElementPrefix>aapl</ElementPrefix>
-      <IsBaseElement>false</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>Tangible assets that are held by an entity for use in the production or supply of goods and services, for rental to others,...</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>2954000000</NumericAmount>
-          <RoundedNumericAmount>2954</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>2455000000</NumericAmount>
-          <RoundedNumericAmount>2455</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>Tangible assets that are held by an entity for use in the production or supply of goods and services, for rental to others, or for administrative purposes and that are expected to provide economic benefit for more than one year; net of accumulated depreciation. Examples include land, buildings, and production equipment. Also includes software programs or applications for internal use (that is, not to be sold, leased or otherwise marketed to others) that qualify for capitalization.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>16</Id>
-      <Label>Goodwill</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_Goodwill</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>206000000</NumericAmount>
-          <RoundedNumericAmount>206</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>207000000</NumericAmount>
-          <RoundedNumericAmount>207</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>17</Id>
-      <Label>Acquired intangible assets, net</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_IntangibleAssetsNetExcludingGoodwill</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>247000000</NumericAmount>
-          <RoundedNumericAmount>247</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>285000000</NumericAmount>
-          <RoundedNumericAmount>285</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>18</Id>
-      <Label>Other assets</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_OtherAssetsNoncurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>2011000000</NumericAmount>
-          <RoundedNumericAmount>2011</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>839000000</NumericAmount>
-          <RoundedNumericAmount>839</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>19</Id>
-      <Label>Total assets</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_Assets</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>debit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>47501000000</NumericAmount>
-          <RoundedNumericAmount>47501</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>36171000000</NumericAmount>
-          <RoundedNumericAmount>36171</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>true</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>21</Id>
-      <Label>Current liabilities:</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_LiabilitiesCurrentAbstract</ElementName>
+      <Label>Common stock, shares outstanding</Label>
+      <Level>3</Level>
+      <ElementName>us-gaap_CommonStockSharesOutstanding</ElementName>
       <ElementPrefix>us-gaap</ElementPrefix>
       <IsBaseElement>true</IsBaseElement>
       <BalanceType>na</BalanceType>
-      <PeriodType>duration</PeriodType>
-      <ElementDataType>string</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>true</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>false</IsNumeric>
-          <NumericAmount>0</NumericAmount>
-          <RoundedNumericAmount>0</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>false</IsNumeric>
-          <NumericAmount>0</NumericAmount>
-          <RoundedNumericAmount>0</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>22</Id>
-      <Label>Accounts payable</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_AccountsPayableCurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
       <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
+      <ElementDataType>shares</ElementDataType>
       <ShortDefinition>No definition available.</ShortDefinition>
       <IsReportTitle>false</IsReportTitle>
       <IsSegmentTitle>false</IsSegmentTitle>
@@ -878,8 +330,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>5601000000</NumericAmount>
-          <RoundedNumericAmount>5601</RoundedNumericAmount>
+          <NumericAmount>899805500</NumericAmount>
+          <RoundedNumericAmount>899805500.00</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -890,8 +342,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>5520000000</NumericAmount>
-          <RoundedNumericAmount>5520</RoundedNumericAmount>
+          <NumericAmount>888325973</NumericAmount>
+          <RoundedNumericAmount>888325973.00</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -902,614 +354,15 @@
       <ElementDefenition>No definition available.</ElementDefenition>
       <ElementReferences>No authoritative reference available.</ElementReferences>
       <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>23</Id>
-      <Label>Accrued expenses</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_AccruedLiabilitiesCurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>3852000000</NumericAmount>
-          <RoundedNumericAmount>3852</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>4224000000</NumericAmount>
-          <RoundedNumericAmount>4224</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>24</Id>
-      <Label>Deferred revenue</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_DeferredRevenueCurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>2053000000</NumericAmount>
-          <RoundedNumericAmount>2053</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>1617000000</NumericAmount>
-          <RoundedNumericAmount>1617</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>25</Id>
-      <Label>Total current liabilities</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_LiabilitiesCurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>11506000000</NumericAmount>
-          <RoundedNumericAmount>11506</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>11361000000</NumericAmount>
-          <RoundedNumericAmount>11361</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>true</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>26</Id>
-      <Label>Deferred revenue - non-current</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_DeferredRevenueNoncurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>853000000</NumericAmount>
-          <RoundedNumericAmount>853</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>768000000</NumericAmount>
-          <RoundedNumericAmount>768</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>27</Id>
-      <Label>Other non-current liabilities</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_OtherLiabilitiesNoncurrent</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>3502000000</NumericAmount>
-          <RoundedNumericAmount>3502</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>1745000000</NumericAmount>
-          <RoundedNumericAmount>1745</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>28</Id>
-      <Label>Total liabilities</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_Liabilities</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>15861000000</NumericAmount>
-          <RoundedNumericAmount>15861</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>13874000000</NumericAmount>
-          <RoundedNumericAmount>13874</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>true</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>30</Id>
-      <Label>Shareholders' equity:</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_StockholdersEquityAbstract</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>na</BalanceType>
-      <PeriodType>duration</PeriodType>
-      <ElementDataType>string</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>true</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>false</IsNumeric>
-          <NumericAmount>0</NumericAmount>
-          <RoundedNumericAmount>0</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>false</IsNumeric>
-          <NumericAmount>0</NumericAmount>
-          <RoundedNumericAmount>0</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>31</Id>
-      <Label>Common stock, no par value; 1,800,000,000 shares authorized; 899,805,500 and 888,325,973 shares issued and outstanding, respectively</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_CommonStockValue</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>8210000000</NumericAmount>
-          <RoundedNumericAmount>8210</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>7177000000</NumericAmount>
-          <RoundedNumericAmount>7177</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>32</Id>
-      <Label>Retained earnings</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_RetainedEarningsAccumulatedDeficit</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>23353000000</NumericAmount>
-          <RoundedNumericAmount>23353</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>15129000000</NumericAmount>
-          <RoundedNumericAmount>15129</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>33</Id>
-      <Label>Accumulated other comprehensive income/(loss)</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_AccumulatedOtherComprehensiveIncomeLossNetOfTax</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>77000000</NumericAmount>
-          <RoundedNumericAmount>77</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>-9000000</NumericAmount>
-          <RoundedNumericAmount>-9</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>false</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>34</Id>
-      <Label>Total shareholders' equity</Label>
-      <Level>5</Level>
-      <ElementName>us-gaap_StockholdersEquity</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>31640000000</NumericAmount>
-          <RoundedNumericAmount>31640</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>false</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>22297000000</NumericAmount>
-          <RoundedNumericAmount>22297</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>true</IsTotalLabel>
-    </Row>
-    <Row>
-      <Id>35</Id>
-      <Label>Total liabilities and shareholders' equity</Label>
-      <Level>4</Level>
-      <ElementName>us-gaap_LiabilitiesAndStockholdersEquity</ElementName>
-      <ElementPrefix>us-gaap</ElementPrefix>
-      <IsBaseElement>true</IsBaseElement>
-      <BalanceType>credit</BalanceType>
-      <PeriodType>instant</PeriodType>
-      <ElementDataType>monetary</ElementDataType>
-      <ShortDefinition>No definition available.</ShortDefinition>
-      <IsReportTitle>false</IsReportTitle>
-      <IsSegmentTitle>false</IsSegmentTitle>
-      <IsSubReportEnd>false</IsSubReportEnd>
-      <IsCalendarTitle>false</IsCalendarTitle>
-      <IsTuple>false</IsTuple>
-      <IsAbstractGroupTitle>false</IsAbstractGroupTitle>
-      <IsBeginningBalance>false</IsBeginningBalance>
-      <IsEndingBalance>false</IsEndingBalance>
-      <IsEPS>false</IsEPS>
-      <Cells>
-        <Cell>
-          <Id>1</Id>
-          <ShowCurrencySymbol>true</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>47501000000</NumericAmount>
-          <RoundedNumericAmount>47501</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-        <Cell>
-          <Id>2</Id>
-          <ShowCurrencySymbol>true</ShowCurrencySymbol>
-          <IsNumeric>true</IsNumeric>
-          <NumericAmount>36171000000</NumericAmount>
-          <RoundedNumericAmount>36171</RoundedNumericAmount>
-          <NonNumbericText />
-          <NonNumericTextHeader />
-          <FootnoteIndexer />
-          <hasSegments>false</hasSegments>
-          <hasScenarios>false</hasScenarios>
-        </Cell>
-      </Cells>
-      <ElementDefenition>No definition available.</ElementDefenition>
-      <ElementReferences>No authoritative reference available.</ElementReferences>
-      <IsTotalLabel>true</IsTotalLabel>
     </Row>
   </Rows>
   <Footnotes />
   <ComparabilityReport>false</ComparabilityReport>
   <NumberOfCols>2</NumberOfCols>
-  <NumberOfRows>28</NumberOfRows>
+  <NumberOfRows>5</NumberOfRows>
   <HasScenarios>false</HasScenarios>
   <MonetaryRoundingLevel>Millions</MonetaryRoundingLevel>
-  <SharesRoundingLevel>UnKnown</SharesRoundingLevel>
+  <SharesRoundingLevel>NoRounding</SharesRoundingLevel>
   <PerShareRoundingLevel>UnKnown</PerShareRoundingLevel>
   <HasPureData>false</HasPureData>
   <SharesShouldBeRounded>true</SharesShouldBeRounded>
