@@ -223,9 +223,6 @@ find_table_R_htm = function(url_df_row) {
              any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
             row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
             for (i in 1:nrow(row1)) {
-                print(i)
-                x = 
-                    y = (row1[i,2])
                 if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
                 else {
                     row1 = row1[i,1]
@@ -300,9 +297,6 @@ find_table_R_xml = function(url_df_row) {
              any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
             row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
             for (i in 1:nrow(row1)) {
-                print(i)
-                x = 
-                    y = (row1[i,2])
                 if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
                 else {
                     row1 = row1[i,1]
