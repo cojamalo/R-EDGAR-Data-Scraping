@@ -118,6 +118,10 @@ library(data.table)
 untidy_fin_hist = fread('untidy_fin_hist.csv')
 untidy_fin_hist = untidy_fin_hist %>% tbl_df %>% gather(date, value, -record, -V1) %>% select(date, record, value) %>% filter(!is.na(value)) %>% spread(record, value)
 unformated_fin_hist = untidy_fin_hist[,apply(untidy_fin_hist, 2, function(x) {mean(is.na(x))}) == 0]
+library(lubridate)
+unformated_fin_hist$date = gsub("\\.|[a-z]","", unformated_fin_hist$date) %>% ymd
+fin_hist = unformated_fin_hist %>% mutate_if(is.character, funs(gsub("\\D|^\\.", "", .))) %>% mutate_if(is.character, as.numeric)
+
 
 
 
