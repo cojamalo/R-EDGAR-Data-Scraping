@@ -45,7 +45,7 @@ for (i in 1:nrow(table)) {
         accno = table$Acc_No[i]
         new_url = paste0(base,CIK_code,"/",accno)    
         
-        if (table$`Filing Date`[i] >= start_date) {
+        if (table$`Filing Date`[i] >= start_date & (table$Filings[i] == "10-Q" | table$Filings[i] == "10-K") ) {
             new_row = data.frame(date=table$`Filing Date`[i], url=new_url)
             url_data = rbind(url_data, new_row)
         }
@@ -116,7 +116,7 @@ write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FAL
 
 library(data.table)
 untidy_fin_hist = fread('untidy_fin_hist.csv')
-untidy_fin_hist = untidy_fin_hist %>% tbl_df %>% gather(date, value, -record, -V1) %>% select(date, record, value) %>% filter(!is.na(value)) %>% spread(record, value)
+untidy_fin_hist = untidy_fin_hist %>% tbl_df %>% gather(date, value, -record) %>% select(date, record, value) %>% filter(!is.na(value)) %>% spread(record, value)
 unformated_fin_hist = untidy_fin_hist[,apply(untidy_fin_hist, 2, function(x) {mean(is.na(x))}) == 0]
 library(lubridate)
 unformated_fin_hist$date = gsub("\\.|[a-z]","", unformated_fin_hist$date) %>% ymd
