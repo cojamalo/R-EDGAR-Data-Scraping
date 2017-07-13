@@ -112,26 +112,5 @@ find_table_R_xml = function(url_df_row) {
 
 
 
-K_sheetNames = c("CONSOLIDATED STATEMENT OF EARNI", "CONSOLIDATED STATEMENTS OF OPER", "CONSOLIDATED_STATEMENTS_OF_OPE","Consolidated_Statements_of_Ope") 
-Q_sheetName = "CONDENSED CONSOLIDATED STATEMEN"
-
-get_xlsx_tables = function(url_list, sheetNames) {
-    i = 0
-    for (url in url_list) {
-        i = i + 1
-        download.file(url=url, destfile = paste0("temp/",as.character(i),".xlsx"), method="curl")
-        
-        wb = loadWorkbook(paste0("temp/",as.character(i),".xlsx"))
-        sheetName = K_sheetNames[which(K_sheetNames %in% names(getSheets(wb)))]
-        table = read.xlsx(paste0("temp/",as.character(i),".xlsx"), sheetName = sheetName)
-        if (!exists("output")) {
-        output = table    
-        }
-        else {
-        output = left_join(output, table)    
-        }
-    }
-    return (output)
-}
 
 
