@@ -122,6 +122,6 @@ library(lubridate)
 unformated_fin_hist$date = gsub("\\.|[a-z]","", unformated_fin_hist$date) %>% ymd
 fin_hist = unformated_fin_hist %>% mutate_if(is.character, funs(gsub("\\D|^\\.", "", .))) %>% mutate_if(is.character, as.numeric)
 fin_hist_q = fin_hist %>% filter(month(date) != 10)
-fin_hist_k= fin_hist %>% filter(month(date) == 10)
-
+fin_hist_k_to_q= fin_hist %>% mutate_if(is.numeric,funs(. - (lag(.,1) + lag(.,2) + lag(.,3))))  %>% filter(month(date) == 10)
+final = rbind(fin_hist_q, fin_hist_k_to_q) %>% arrange(desc(date))
 
