@@ -51,7 +51,7 @@ table = resp %>%
     html_nodes(".tableFile2") %>%
     html_table()
 
-table = table[[1]] %>% mutate(Acc_No = str_extract(Description, '(?<=Acc-no: )[^\\s]+'), Acc_No = gsub("-","",Acc_No))
+table = table[[1]] %>% mutate(Acc_No = str_extract(Description, '(?<=Acc-no: )[^\\s]+'), Acc_No_code = gsub("-","",Acc_No))
 
 download.file(url="https://www.sec.gov/include/InstanceReport.xslt", destfile = "temp/style.xslt", method="curl")
 
@@ -60,16 +60,36 @@ base = "https://www.sec.gov/Archives/edgar/data/"
 url_data = data.frame()
 for (i in 1:nrow(table)) {
         accno = table$Acc_No[i]
-        new_url = paste0(base,CIK_code,"/",accno)    
+        accno_code = table$Acc_No_code[i]
+        new_url = paste0(base,CIK_code,"/",accno_code)
+        new_url_index = paste0(base,CIK_code,"/",accno,"/",accno_code,"-index.htm")    
         
         if (table$`Filing Date`[i] >= start_date & (table$Filings[i] == "10-Q" | table$Filings[i] == "10-K") ) {
-            new_row = data.frame(date=table$`Filing Date`[i], url=new_url)
+            new_row = data.frame(date=table$`Filing Date`[i], url_base=new_url, url_index=new_url_index)
             url_data = rbind(url_data, new_row)
         }
 }
 url_data = url_data %>% mutate_all(as.character)
 
 rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i, new_url, owner, resp, start_date, ticker, type)
+
+new_col = c()
+for (i in 1:nrow(url_data)) {
+    form_file = read_html(url_data$url_index[i]) %>%
+                    html_nodes(".tableFile") %>%
+                    .[[1]] %>%
+                    html_table %>%
+                    filter(Type == "10-K" | Type == "10-Q") %>%
+                    .$Document
+    form_url = paste0(url_data$url_base[i],"/",form_file) 
+    if (GET(form_url)$status_code != 200) {
+        print("error - bad link")
+        break
+        }
+    new_col = c(new_col, form_url)
+}
+url_data = cbind(url_data, as.character(new_col))
+rm(new_col)
 
 build_sales_hist = function(url_df) {
     for (i in 1:nrow(url_df)) {
