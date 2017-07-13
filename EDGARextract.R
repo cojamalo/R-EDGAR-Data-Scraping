@@ -111,7 +111,7 @@ regex_cond4 = "cost of revenue"
 for(word in earnings_list) { regex_cond1 = paste0(regex_cond1,"|",word) }
 for(word in gross_list) { regex_cond2 = paste0(regex_cond2,"|",word) }
 for(word in rev_list) { regex_cond3 = paste0(regex_cond3,"|",word) }
-for(word in cost_list) { regex_cond4 = paste0(regex_cond3,"|",word) }
+for(word in cost_list) { regex_cond4 = paste0(regex_cond4,"|",word) }
 
 # table_list = list()
 # for (i in 1:nrow(url_data)) {
@@ -165,6 +165,7 @@ for(word in cost_list) { regex_cond4 = paste0(regex_cond3,"|",word) }
 
 
 build_sales_hist = function(url_df) {
+    if (exists("first_col")) {rm(first_col)}
     for (i in 1:nrow(url_df)) {
         htm_check = paste0(url_df$url_base[i],"/R1.htm")
         xml_check = paste0(url_df$url_base[i],"/R1.xml")
@@ -205,9 +206,9 @@ find_table_R_htm = function(url_df_row) {
         if (names(table)[1] == names(table)[2]) {
             table[,2] = NULL        
         }
-        for (i in 1:ncol(table)) {
-            colnames(table)[i] = as.character(i)
-            }    
+        for (j in 1:ncol(table)) {
+            colnames(table)[j] = as.character(j)
+        }    
         
         table = table %>%
             apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
@@ -216,13 +217,23 @@ find_table_R_htm = function(url_df_row) {
             apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
             as.data.frame(stringsAsFactors=FALSE)
         names(table) = c("record", url_df_row$date)
-        #colnames(table)[1] = "record"
-        #colnames(table)[2] = url_df_row$date
         if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
              any(grepl(regex_cond2, table, ignore.case = TRUE)) &
              any(grepl(regex_cond3, table, ignore.case = TRUE)) &
              any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
-            return(table[,1:2])   
+            row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}))[1]
+            row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}))[1]
+            row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}))[1]
+            row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))[1]
+            table = table[c(row3,row4,row2,row1),]
+            if (!exists("first_col")) {
+                first_col <<- table[,1]     
+            }
+            else {
+                table[,1] = first_col    
+            }
+            names(table) = c("record", url_df_row$date)
+            return(table[,1:2])
         }
     }
     return (0)
@@ -243,8 +254,8 @@ find_table_R_xml = function(url_df_row) {
         if (names(table)[1] == names(table)[2]) {
             table[,2] = NULL        
         }
-        for (i in 1:ncol(table)) {
-                colnames(table)[i] = as.character(i)
+        for (j in 1:ncol(table)) {
+                colnames(table)[j] = as.character(j)
         }    
         table = table %>%
             apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
@@ -257,7 +268,19 @@ find_table_R_xml = function(url_df_row) {
              any(grepl(regex_cond2, table, ignore.case = TRUE)) &
              any(grepl(regex_cond3, table, ignore.case = TRUE)) &
              any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
-            return(table[,1:2])   
+            row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}))[1]
+            row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}))[1]
+            row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}))[1]
+            row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))[1]
+            table = table[c(row3,row4,row2,row1),]
+            if (!exists("first_col")) {
+                first_col <<- table[,1]     
+            }
+            else {
+                table[,1] = first_col    
+            }
+            names(table) = c("record", url_df_row$date)
+            return(table[,1:2])
         }
     }
     return (0)
@@ -282,5 +305,42 @@ fin_hist_k_to_q= fin_hist %>% mutate_if(is.numeric,funs(. - (lag(.,1) + lag(.,2)
 final = rbind(fin_hist_q, fin_hist_k_to_q) %>% arrange(desc(date))
 
 
+
+table = read_html("https://www.sec.gov/Archives/edgar/data/200406/000020040617000006/R4.htm") %>% 
+    html_nodes(".report") %>%
+    html_table(fill=TRUE) %>%
+    .[[1]]
+if (names(table)[1] == names(table)[2]) {
+    table[,2] = NULL        
+}
+for (i in 1:ncol(table)) {
+    colnames(table)[i] = as.character(i)
+}    
+
+table = table %>%
+    apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
+    as.data.frame(stringsAsFactors=FALSE) %>%
+    mutate_if(is.character, tolower) %>%
+    apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+    as.data.frame(stringsAsFactors=FALSE)
+names(table) = c("record", url_df_row$date)
+if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
+     any(grepl(regex_cond2, table, ignore.case = TRUE)) &
+     any(grepl(regex_cond3, table, ignore.case = TRUE)) &
+     any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
+    row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}))[1]
+    row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}))[1]
+    row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}))[1]
+    row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))[1]
+    table = table[c(row3,row4,row2,row1),]
+    if (!exists("first_col")) {
+        first_col <<- table[,1]     
+    }
+    else {
+        table[,1] = first_col    
+    }
+    names(table) = c("record", url_data$date[i])
+    return(table[,1:2])
+}
 
 
