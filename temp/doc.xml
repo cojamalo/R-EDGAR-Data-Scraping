@@ -19,7 +19,17 @@
       <Scenarios />
       <Units>
         <Unit>
-          <UnitID>iso4217_USD</UnitID>
+          <UnitID>Shares</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
           <UnitType>Standard</UnitType>
           <StandardMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -29,7 +39,7 @@
           <Scale>0</Scale>
         </Unit>
         <Unit>
-          <UnitID>iso4217_USD_per_shares</UnitID>
+          <UnitID>USDperShareItemType</UnitID>
           <UnitType>Divide</UnitType>
           <NumeratorMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -41,16 +51,6 @@
             <MeasureValue>shares</MeasureValue>
             <MeasureNamespace />
           </DenominatorMeasure>
-          <Scale>0</Scale>
-        </Unit>
-        <Unit>
-          <UnitID>shares</UnitID>
-          <UnitType>Standard</UnitType>
-          <StandardMeasure>
-            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
-            <MeasureValue>shares</MeasureValue>
-            <MeasureNamespace />
-          </StandardMeasure>
           <Scale>0</Scale>
         </Unit>
       </Units>
@@ -69,7 +69,17 @@
       <Scenarios />
       <Units>
         <Unit>
-          <UnitID>iso4217_USD</UnitID>
+          <UnitID>Shares</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
           <UnitType>Standard</UnitType>
           <StandardMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -79,7 +89,7 @@
           <Scale>0</Scale>
         </Unit>
         <Unit>
-          <UnitID>iso4217_USD_per_shares</UnitID>
+          <UnitID>USDperShareItemType</UnitID>
           <UnitType>Divide</UnitType>
           <NumeratorMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -91,16 +101,6 @@
             <MeasureValue>shares</MeasureValue>
             <MeasureNamespace />
           </DenominatorMeasure>
-          <Scale>0</Scale>
-        </Unit>
-        <Unit>
-          <UnitID>shares</UnitID>
-          <UnitType>Standard</UnitType>
-          <StandardMeasure>
-            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
-            <MeasureValue>shares</MeasureValue>
-            <MeasureNamespace />
-          </StandardMeasure>
           <Scale>0</Scale>
         </Unit>
       </Units>
@@ -119,7 +119,17 @@
       <Scenarios />
       <Units>
         <Unit>
-          <UnitID>iso4217_USD</UnitID>
+          <UnitID>Shares</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
           <UnitType>Standard</UnitType>
           <StandardMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -129,7 +139,7 @@
           <Scale>0</Scale>
         </Unit>
         <Unit>
-          <UnitID>iso4217_USD_per_shares</UnitID>
+          <UnitID>USDperShareItemType</UnitID>
           <UnitType>Divide</UnitType>
           <NumeratorMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -141,16 +151,6 @@
             <MeasureValue>shares</MeasureValue>
             <MeasureNamespace />
           </DenominatorMeasure>
-          <Scale>0</Scale>
-        </Unit>
-        <Unit>
-          <UnitID>shares</UnitID>
-          <UnitType>Standard</UnitType>
-          <StandardMeasure>
-            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
-            <MeasureValue>shares</MeasureValue>
-            <MeasureNamespace />
-          </StandardMeasure>
           <Scale>0</Scale>
         </Unit>
       </Units>
@@ -182,8 +182,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>42905000000</NumericAmount>
-          <RoundedNumericAmount>42905</RoundedNumericAmount>
+          <NumericAmount>36537000000</NumericAmount>
+          <RoundedNumericAmount>36537</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -194,8 +194,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>37491000000</NumericAmount>
-          <RoundedNumericAmount>37491</RoundedNumericAmount>
+          <NumericAmount>32479000000</NumericAmount>
+          <RoundedNumericAmount>32479</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -206,8 +206,8 @@
           <Id>3</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>24578000000</NumericAmount>
-          <RoundedNumericAmount>24578</RoundedNumericAmount>
+          <NumericAmount>24006000000</NumericAmount>
+          <RoundedNumericAmount>24006</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -244,8 +244,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>25683000000</NumericAmount>
-          <RoundedNumericAmount>25683</RoundedNumericAmount>
+          <NumericAmount>23397000000</NumericAmount>
+          <RoundedNumericAmount>23397</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -256,8 +256,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>24294000000</NumericAmount>
-          <RoundedNumericAmount>24294</RoundedNumericAmount>
+          <NumericAmount>21334000000</NumericAmount>
+          <RoundedNumericAmount>21334</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -268,8 +268,8 @@
           <Id>3</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>16426000000</NumericAmount>
-          <RoundedNumericAmount>16426</RoundedNumericAmount>
+          <NumericAmount>15852000000</NumericAmount>
+          <RoundedNumericAmount>15852</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -306,8 +306,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>17222000000</NumericAmount>
-          <RoundedNumericAmount>17222</RoundedNumericAmount>
+          <NumericAmount>13140000000</NumericAmount>
+          <RoundedNumericAmount>13140</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -318,8 +318,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>13197000000</NumericAmount>
-          <RoundedNumericAmount>13197</RoundedNumericAmount>
+          <NumericAmount>11145000000</NumericAmount>
+          <RoundedNumericAmount>11145</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -330,8 +330,8 @@
           <Id>3</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>8152000000</NumericAmount>
-          <RoundedNumericAmount>8152</RoundedNumericAmount>
+          <NumericAmount>8154000000</NumericAmount>
+          <RoundedNumericAmount>8154</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -615,8 +615,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>11740000000</NumericAmount>
-          <RoundedNumericAmount>11740</RoundedNumericAmount>
+          <NumericAmount>7658000000</NumericAmount>
+          <RoundedNumericAmount>7658</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -627,8 +627,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>8327000000</NumericAmount>
-          <RoundedNumericAmount>8327</RoundedNumericAmount>
+          <NumericAmount>6275000000</NumericAmount>
+          <RoundedNumericAmount>6275</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -639,8 +639,8 @@
           <Id>3</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>4407000000</NumericAmount>
-          <RoundedNumericAmount>4407</RoundedNumericAmount>
+          <NumericAmount>4409000000</NumericAmount>
+          <RoundedNumericAmount>4409</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -739,8 +739,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>12066000000</NumericAmount>
-          <RoundedNumericAmount>12066</RoundedNumericAmount>
+          <NumericAmount>7984000000</NumericAmount>
+          <RoundedNumericAmount>7984</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -751,8 +751,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>8947000000</NumericAmount>
-          <RoundedNumericAmount>8947</RoundedNumericAmount>
+          <NumericAmount>6895000000</NumericAmount>
+          <RoundedNumericAmount>6895</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -763,8 +763,8 @@
           <Id>3</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>5006000000</NumericAmount>
-          <RoundedNumericAmount>5006</RoundedNumericAmount>
+          <NumericAmount>5008000000</NumericAmount>
+          <RoundedNumericAmount>5008</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -801,8 +801,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>3831000000</NumericAmount>
-          <RoundedNumericAmount>3831</RoundedNumericAmount>
+          <NumericAmount>2280000000</NumericAmount>
+          <RoundedNumericAmount>2280</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -813,8 +813,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>2828000000</NumericAmount>
-          <RoundedNumericAmount>2828</RoundedNumericAmount>
+          <NumericAmount>2061000000</NumericAmount>
+          <RoundedNumericAmount>2061</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -825,8 +825,8 @@
           <Id>3</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>1511000000</NumericAmount>
-          <RoundedNumericAmount>1511</RoundedNumericAmount>
+          <NumericAmount>1512000000</NumericAmount>
+          <RoundedNumericAmount>1512</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -863,8 +863,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>8235000000</NumericAmount>
-          <RoundedNumericAmount>8235</RoundedNumericAmount>
+          <NumericAmount>5704000000</NumericAmount>
+          <RoundedNumericAmount>5704</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -875,8 +875,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>6119000000</NumericAmount>
-          <RoundedNumericAmount>6119</RoundedNumericAmount>
+          <NumericAmount>4834000000</NumericAmount>
+          <RoundedNumericAmount>4834</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -887,8 +887,8 @@
           <Id>3</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>3495000000</NumericAmount>
-          <RoundedNumericAmount>3495</RoundedNumericAmount>
+          <NumericAmount>3496000000</NumericAmount>
+          <RoundedNumericAmount>3496</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -986,8 +986,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>9.22</NumericAmount>
-          <RoundedNumericAmount>9.22</RoundedNumericAmount>
+          <NumericAmount>6.39</NumericAmount>
+          <RoundedNumericAmount>6.39</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -998,8 +998,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>6.94</NumericAmount>
-          <RoundedNumericAmount>6.94</RoundedNumericAmount>
+          <NumericAmount>5.48</NumericAmount>
+          <RoundedNumericAmount>5.48</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -1048,8 +1048,8 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>9.08</NumericAmount>
-          <RoundedNumericAmount>9.08</RoundedNumericAmount>
+          <NumericAmount>6.29</NumericAmount>
+          <RoundedNumericAmount>6.29</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
@@ -1060,8 +1060,8 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>6.78</NumericAmount>
-          <RoundedNumericAmount>6.78</RoundedNumericAmount>
+          <NumericAmount>5.36</NumericAmount>
+          <RoundedNumericAmount>5.36</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
           <FootnoteIndexer />
