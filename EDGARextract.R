@@ -7,7 +7,22 @@ library(httr)
 library(rvest)
 
 ### Need to account for different revenue vs sales tables vs statement of income Alt
-
+# 10-Q
+# JNJ - CONSOLIDATED STATEMENTS OF EARNINGS - Sales to customers, Gross profit, NET EARNINGS - https://www.sec.gov/Archives/edgar/data/200406/000020040617000024/0000200406-17-000024-index.htm
+# APPL - CONDENSED CONSOLIDATED STATEMENTS OF OPERATIONS - Net sales, Gross margin, Net income - https://www.sec.gov/Archives/edgar/data/320193/000162828017000717/0001628280-17-000717-index.htm
+# TSLA - Consolidated Statements of Operations - Total revenues, Gross profit, Net loss -
+# FB - CONSOLIDATED STATEMENTS OF INCOME - Revenue, Income from operations,Net income
+# AOS - CONSOLIDATED STATEMENTS OF EARNINGS - Net sales, Gross profit, Net Earnings
+# COST - CONSOLIDATED STATEMENTS OF INCOME - Total revenue, Operating Income, Net income including noncontrolling interests
+# XOM - CONSOLIDATED STATEMENT OF INCOME - Total revenues and other income, Income before income taxes, Net income including noncontrolling interests
+# GM - CONSOLIDATED INCOME STATEMENTS - Total net sales and revenue, Operating income, Net income
+# BAC - Consolidated Statement of Income - Total revenue, net of interest expense, Income before income taxes, Net income
+# AAL - CONSOLIDATED STATEMENTS OF OPERATIONS - Total operating revenues, Operating income, Net income
+# WYNN - CONSOLIDATED STATEMENTS OF INCOME - Net revenues, Operating income, Net income
+# WMT - Consolidated Statements of Income - Total revenues, Operating income, Consolidated net income
+# QCOM - CONSOLIDATED STATEMENTS OF OPERATIONS - Total revenues, Operating income, Net income
+# ALDR - Consolidated Statements of Operations - Revenues, Loss from operations, Net loss
+# AAON - Consolidated Statements of Income - Net sales, Gross profit, Net income
 
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
@@ -126,4 +141,16 @@ fin_hist = unformated_fin_hist %>% mutate_if(is.character, funs(gsub("\\D|^\\.",
 fin_hist_q = fin_hist %>% filter(month(date) != 10)
 fin_hist_k_to_q= fin_hist %>% mutate_if(is.numeric,funs(. - (lag(.,1) + lag(.,2) + lag(.,3))))  %>% filter(month(date) == 10)
 final = rbind(fin_hist_q, fin_hist_k_to_q) %>% arrange(desc(date))
+
+
+CIK_code = resp %>%
+    html_nodes("#documentsbutton") %>%
+    .[[1]] %>% html_attr("href")
+
+CIK_code = str_extract(CIK_code, '(?<=data\\/)[^\\/]+')
+
+table = resp %>% 
+    html_nodes(".tableFile2") %>%
+    html_table()
+
 
