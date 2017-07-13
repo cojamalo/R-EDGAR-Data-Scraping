@@ -110,7 +110,7 @@ find_table_R_xml = function(url_df_row) {
 
 
 untidy_fin_hist = build_sales_hist(url_data)
-write.csv(test,file='untidy_fin_hist.csv', sep = ",")
+write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",")
 
 library(data.table)
 untidy_fin_hist = fread('untidy_fin_hist.csv')
