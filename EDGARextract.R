@@ -52,6 +52,8 @@ for (i in 1:nrow(table)) {
 }
 url_data = url_data %>% mutate_all(as.character)
 
+rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i, new_url, owner, resp, start_date, ticker, type)
+
 build_sales_hist = function(url_df) {
     for (i in 1:nrow(url_df)) {
         url_check = paste0(url_df$url[i],"/R1.htm")
@@ -114,7 +116,7 @@ write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",")
 
 library(data.table)
 untidy_fin_hist = fread('untidy_fin_hist.csv')
-untidy_fin_hist %>% tbl_df %>% gather(date, value, -`Measure Type`, -V1) %>% select(date, `Measure Type`, )
+untidy_fin_hist %>% tbl_df %>% gather(date, value, -record, -V1) %>% select(date, record, value)
 
 
 
