@@ -27,7 +27,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "JNJ"
+ticker = "AAPL"
 start_date = "2012-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -291,56 +291,56 @@ untidy_fin_hist = build_sales_hist(url_data)
 head(untidy_fin_hist)
 
 
-write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
-
-library(data.table)
-untidy_fin_hist = fread('untidy_fin_hist.csv')
-untidy_fin_hist = untidy_fin_hist %>% tbl_df %>% gather(date, value, -record) %>% select(date, record, value) %>% filter(!is.na(value)) %>% spread(record, value)
-unformated_fin_hist = untidy_fin_hist[,apply(untidy_fin_hist, 2, function(x) {mean(is.na(x))}) == 0]
-library(lubridate)
-unformated_fin_hist$date = gsub("\\.|[a-z]","", unformated_fin_hist$date) %>% ymd
-fin_hist = unformated_fin_hist %>% mutate_if(is.character, funs(gsub("\\D|^\\.", "", .))) %>% mutate_if(is.character, as.numeric)
-fin_hist_q = fin_hist %>% filter(month(date) != 10)
-fin_hist_k_to_q= fin_hist %>% mutate_if(is.numeric,funs(. - (lag(.,1) + lag(.,2) + lag(.,3))))  %>% filter(month(date) == 10)
-final = rbind(fin_hist_q, fin_hist_k_to_q) %>% arrange(desc(date))
-
-
-
-table = read_html("https://www.sec.gov/Archives/edgar/data/200406/000020040617000006/R4.htm") %>% 
-    html_nodes(".report") %>%
-    html_table(fill=TRUE) %>%
-    .[[1]]
-if (names(table)[1] == names(table)[2]) {
-    table[,2] = NULL        
-}
-for (i in 1:ncol(table)) {
-    colnames(table)[i] = as.character(i)
-}    
-
-table = table %>%
-    apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
-    as.data.frame(stringsAsFactors=FALSE) %>%
-    mutate_if(is.character, tolower) %>%
-    apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
-    as.data.frame(stringsAsFactors=FALSE)
-names(table) = c("record", url_df_row$date)
-if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
-     any(grepl(regex_cond2, table, ignore.case = TRUE)) &
-     any(grepl(regex_cond3, table, ignore.case = TRUE)) &
-     any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
-    row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}))[1]
-    row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}))[1]
-    row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}))[1]
-    row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))[1]
-    table = table[c(row3,row4,row2,row1),]
-    if (!exists("first_col")) {
-        first_col <<- table[,1]     
-    }
-    else {
-        table[,1] = first_col    
-    }
-    names(table) = c("record", url_data$date[i])
-    return(table[,1:2])
-}
+# write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
+# 
+# library(data.table)
+# untidy_fin_hist = fread('untidy_fin_hist.csv')
+# untidy_fin_hist = untidy_fin_hist %>% tbl_df %>% gather(date, value, -record) %>% select(date, record, value) %>% filter(!is.na(value)) %>% spread(record, value)
+# unformated_fin_hist = untidy_fin_hist[,apply(untidy_fin_hist, 2, function(x) {mean(is.na(x))}) == 0]
+# library(lubridate)
+# unformated_fin_hist$date = gsub("\\.|[a-z]","", unformated_fin_hist$date) %>% ymd
+# fin_hist = unformated_fin_hist %>% mutate_if(is.character, funs(gsub("\\D|^\\.", "", .))) %>% mutate_if(is.character, as.numeric)
+# fin_hist_q = fin_hist %>% filter(month(date) != 10)
+# fin_hist_k_to_q= fin_hist %>% mutate_if(is.numeric,funs(. - (lag(.,1) + lag(.,2) + lag(.,3))))  %>% filter(month(date) == 10)
+# final = rbind(fin_hist_q, fin_hist_k_to_q) %>% arrange(desc(date))
+# 
+# 
+# 
+# table = read_html("https://www.sec.gov/Archives/edgar/data/200406/000020040617000006/R4.htm") %>% 
+#     html_nodes(".report") %>%
+#     html_table(fill=TRUE) %>%
+#     .[[1]]
+# if (names(table)[1] == names(table)[2]) {
+#     table[,2] = NULL        
+# }
+# for (i in 1:ncol(table)) {
+#     colnames(table)[i] = as.character(i)
+# }    
+# 
+# table = table %>%
+#     apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
+#     as.data.frame(stringsAsFactors=FALSE) %>%
+#     mutate_if(is.character, tolower) %>%
+#     apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+#     as.data.frame(stringsAsFactors=FALSE)
+# names(table) = c("record", url_df_row$date)
+# if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
+#      any(grepl(regex_cond2, table, ignore.case = TRUE)) &
+#      any(grepl(regex_cond3, table, ignore.case = TRUE)) &
+#      any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
+#     row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}))[1]
+#     row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}))[1]
+#     row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}))[1]
+#     row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))[1]
+#     table = table[c(row3,row4,row2,row1),]
+#     if (!exists("first_col")) {
+#         first_col <<- table[,1]     
+#     }
+#     else {
+#         table[,1] = first_col    
+#     }
+#     names(table) = c("record", url_data$date[i])
+#     return(table[,1:2])
+# }
 
 
