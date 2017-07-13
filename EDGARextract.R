@@ -6,6 +6,8 @@ library(RCurl)
 library(httr)
 library(rvest)
 
+### Need to account for different revenue vs sales tables vs statement of income Alt
+
 
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
