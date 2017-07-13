@@ -1,4 +1,5 @@
 library(xslt)
+library(htmltab)
 library(tidyverse)
 library(stringr)
 library(xlsx)
@@ -6,8 +7,10 @@ library(RCurl)
 library(httr)
 library(rvest)
 
+setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
+
 ticker = "AAPL"
-start_date = "2009-01-01" # date when xml and htm data started beign used
+start_date = "2009-06-01" # date when xml and htm data started beign used
 stopifnot(is.character(ticker))
 directory = "http://www.sec.gov/cgi-bin/browse-edgar?"
 
@@ -36,27 +39,30 @@ table = table[[1]] %>% mutate(Acc_No = str_extract(Description, '(?<=Acc-no: )[^
 download.file(url="https://www.sec.gov/include/InstanceReport.xslt", destfile = "temp/style.xslt", method="curl")
 
 base = "https://www.sec.gov/Archives/edgar/data/"
-urls = c()
+
+url_data = data.frame()
 for (i in 1:nrow(table)) {
         accno = table$Acc_No[i]
         new_url = paste0(base,CIK_code,"/",accno)    
         
         if (table$`Filing Date`[i] >= start_date) {
-            urls = c(urls, new_url)
+            new_row = data.frame(date=table$`Filing Date`[i], url=new_url)
+            url_data = rbind(url_data, new_row)
         }
 }
+url_data = url_data %>% mutate_all(as.character)
 
-build_sales_hist = function(url_list) {
-    for (url in url_list) {
-        url_check = paste0(url,"/R1.htm")
-        print(url)
+build_sales_hist = function(url_df) {
+    for (i in 1:nrow(url_df)) {
+        url_check = paste0(url_df$url[i],"/R1.htm")
+        print(url_df$url[i])
         if (GET(url_check)$status_code == 200) {
             print("Is a htm version.")
-            data = find_table_R_htm(url)
+            data = find_table_R_htm(url_df[i,])
         }
         else {
             print("Is an xml version.")
-            data = find_table_R_xml(url)  
+            data = find_table_R_xml(url_df[i,])  
         }
         if (data == 0) {}
         else {
@@ -64,43 +70,39 @@ build_sales_hist = function(url_list) {
                output = data
            }
            else {
-               output = left_join(output, data[,1:2])
+               output = left_join(output, data[,1:2], by="Measure Type")
            }
         }
     } 
     return (output)
 }
 
-find_table_R_htm = function(url) {
+find_table_R_htm = function(url_df_row) {
     for (i in 1:10) {
-        R_url = paste0(url,"/R",as.character(i),".htm")
+        R_url = paste0(url_df_row$url,"/R",as.character(i),".htm")
         resp_R = read_html(R_url)
         table = resp_R %>% 
             html_nodes(".report") %>%
-            html_table(fill=TRUE) %>%
-            .[[1]]
-        colnames(table)[1] = "one"
-        colnames(table)[2] = "two"
-        colnames(table)[3] = "three"
+            as.character %>%
+            htmltab(1)
+        names(table) = c("Measure Type", url_df_row$date)
         if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
-            return(table)   
+            return(table[,1:2])   
         }
     }
     return (0)
 }
 
-find_table_R_xml = function(url) {
+find_table_R_xml = function(url_df_row) {
     for (i in 1:10) {
-        R_url = paste0(url,"/R",as.character(i),".xml")
+        R_url = paste0(url_df_row$url,"/R",as.character(i),".xml")
         download.file(url=R_url, destfile = "temp/doc.xml", method="curl")
         doc <- read_xml("temp/doc.xml", package = "xslt")
         style <- read_xml("temp/style.xslt", package = "xslt")
-        table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% html_table(fill=TRUE) %>% .[[1]]
-        colnames(table)[1] = "one"
-        colnames(table)[2] = "two"
-        colnames(table)[3] = "three"
+        table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% as.character %>% htmltab(1)
+        names(table) = c("Measure Type", url_df_row$date)
         if (any(grepl("Net sales", table[1])) & any(grepl("Cost of sales", table[1])) & any(grepl("Gross margin", table[1]))) {
-            return(table)   
+            return(table[,1:2])   
         }
     }
     return (0)
@@ -133,8 +135,12 @@ get_xlsx_tables = function(url_list, sheetNames) {
 get_xlsx_tables(K_urls, K_sheetNames)
 
 
+url = "https://www.sec.gov/Archives/edgar/data/320193/000119312511104388"
+R_url = paste0(url,"/R",as.character(2),".xml")
+download.file(url=R_url, destfile = "temp/doc.xml", method="curl")
+doc <- read_xml("temp/doc.xml", package = "xslt")
+style <- read_xml("temp/style.xslt", package = "xslt")
+table <- xml_xslt(doc, style) %>% as.character() %>% read_html() %>% html_nodes(".report") %>% as.character %>% htmltab
 
-
-
-
+xml_xslt(doc, style) %>% as.character() 
 
