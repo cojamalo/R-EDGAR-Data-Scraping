@@ -621,4 +621,551 @@
 				<xsl:otherwise>
 					<a class="a" href="javascript:void(0);" onclick="top.Show.showAR( this, 'defref_{ElementName}', window );">
 
+						<xsl:choose>
+						<xsl:when test="IsAbstractGroupTitle = 'true'">
+							<strong>
+                <xsl:value-of select="normalize-space( Label )"/>
+              </strong>
+						</xsl:when>
+						<xsl:otherwise>				
+							<xsl:value-of select="normalize-space( Label )" />
+						</xsl:otherwise>
+						</xsl:choose>
 						
+					</a>
+				</xsl:otherwise>
+			</xsl:choose>
+    </xsl:template>
+
+	<xsl:template name="authRefData">
+    <xsl:param name="Name" select="ElementName"/>
+		<xsl:variable name="tmp">
+			<xsl:choose>
+			<xsl:when test="$authMode > 0"> Details </xsl:when>
+        <xsl:when test="string-length( ElementDefenition ) > 0 and not( ElementDefenition = 'No definition available.' )">
+				ElementDefenition
+			</xsl:when>
+			<xsl:when test="string-length( ElementReferences ) &gt; 0 and not( ElementReferences = 'No authoritative reference available.' )">
+				ElementReferences
+			</xsl:when>
+			<xsl:otherwise>
+				Details
+			</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:variable name="first" select="normalize-space( $tmp )" />
+		
+		<table border="0" cellpadding="0" cellspacing="0" class="authRefData" style="display: none;">
+		<xsl:attribute name="id">defref_<xsl:value-of select="$Name"/></xsl:attribute>
+		<tr>
+			<td class="hide">
+				<a style="color: white;" href="javascript:void(0);" onclick="top.Show.hideAR();">X</a>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="body" style="padding: 2px;">
+					<xsl:if test="string-length( ElementDefenition ) &gt; 0 and not( ElementDefenition = 'No definition available.' )">
+						<a href="javascript:void(0);" onclick="top.Show.toggleNext( this );">
+							<xsl:choose>
+							<xsl:when test="$first = 'ElementDefenition'">- Definition</xsl:when>
+							<xsl:otherwise>+ Definition</xsl:otherwise>
+							</xsl:choose>
+						</a>
+						<div>
+							<xsl:if test="not( $first = 'ElementDefenition' )">
+								<xsl:attribute name="style">display: none;</xsl:attribute>
+							</xsl:if>
+
+							<p><xsl:value-of select="ElementDefenition" /></p>
+						</div>
+					</xsl:if>
+					
+					<xsl:if test="string-length( ElementReferences ) &gt; 0 and not( ElementReferences = 'No authoritative reference available.' )">
+						<a href="javascript:void(0);" onclick="top.Show.toggleNext( this );">
+							<xsl:choose>
+							<xsl:when test="$first = 'ElementReferences'">- References</xsl:when>
+							<xsl:otherwise>+ References</xsl:otherwise>
+							</xsl:choose>
+						</a>
+						<div>
+							<xsl:if test="not( $first = 'ElementReferences' )">
+								<xsl:attribute name="style">display: none;</xsl:attribute>
+							</xsl:if>
+
+							<p>
+								<xsl:call-template name="nl2br">
+									<xsl:with-param name="content" select="ElementReferences" />						
+								</xsl:call-template>
+							</p>
+						</div>
+					</xsl:if>
+					
+					<a href="javascript:void(0);" onclick="top.Show.toggleNext( this );">
+						<xsl:choose>
+						<xsl:when test="$first = 'Details'">- Details</xsl:when>
+						<xsl:otherwise>+ Details</xsl:otherwise>
+						</xsl:choose>
+					</a>
+					<div>
+						<xsl:if test="not( $first = 'Details' )">
+							<xsl:attribute name="style">display: none;</xsl:attribute>
+						</xsl:if>
+						
+						<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<td><strong> Name:</strong></td>
+							<td style="white-space:nowrap;">
+                    <xsl:value-of select="$Name"/>
+                  </td>
+						</tr>
+						<tr>
+							<td style="padding-right: 4px;white-space:nowrap;">
+                    <strong> Namespace Prefix:</strong>
+                  </td>
+							<td><xsl:value-of select="ElementPrefix" /></td>
+						</tr>
+						<tr>
+							<td><strong> Data Type:</strong></td>
+							<td>
+                  <xsl:choose>
+                    <xsl:when test="not(ElementDataType)">na</xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="ElementDataType"/>
+                    </xsl:otherwise>
+                  </xsl:choose>                    
+                  </td>
+						</tr>
+						<tr>
+							<td><strong> Balance Type:</strong></td>
+							<td><xsl:value-of select="BalanceType" /></td>
+						</tr>
+						<tr>
+							<td><strong> Period Type:</strong></td>
+							<td><xsl:value-of select="PeriodType" /></td>
+						</tr>
+						</table>
+					</div>
+				</div>
+			</td>
+		</tr>
+		</table>
+	</xsl:template>
+	
+	
+	
+
+    <xsl:template name="perCell">
+        <xsl:param name="colsWithNotes" />
+		<xsl:param name="headsWithNotes" />		
+		
+        <xsl:param name="hasFootnotes" />
+        <xsl:param name="labelPosition" />
+        <xsl:param name="rounding" />
+
+        <xsl:for-each select="Cells/Cell">
+        <td>
+						<xsl:if test="contains( $headsWithNotes, concat( '|', Id, '|' ) ) and not( contains( $colsWithNotes, concat( '|', Id, '|' ) ) )">
+								<xsl:attribute name="colspan">2</xsl:attribute>
+						</xsl:if>
+		
+						<xsl:choose>
+						<xsl:when test="EmbeddedReport/InstanceReport">
+								<xsl:apply-templates select="EmbeddedReport/InstanceReport" />
+						</xsl:when>
+						<xsl:when test="IsNumeric = 'false'">
+
+								<xsl:choose>
+										<xsl:when test="DisplayDateInUSFormat = 'true'">
+												<xsl:attribute name="class">text</xsl:attribute>
+
+												<xsl:if test="string-length( NonNumbericText ) &gt; 0">
+														<xsl:call-template name="dateFilters" />
+												</xsl:if>
+										</xsl:when>
+										<xsl:otherwise>
+												<xsl:attribute name="class">text</xsl:attribute>
+												<xsl:call-template name="textFilters" />
+										</xsl:otherwise>
+								</xsl:choose>
+
+						</xsl:when>
+						<xsl:when test="IsNumeric = 'true'">
+								<xsl:choose>
+										<xsl:when test="DisplayZeroAsNone = 'true' and NumericAmount = 0">
+												<xsl:attribute name="class">nump</xsl:attribute>
+												none
+										</xsl:when>
+										<xsl:otherwise>
+												<xsl:call-template name="setCellClass"/>
+
+												<xsl:variable name="ColumnId" select="Id"/>
+                <xsl:variable name="tmp">
+														<xsl:value-of select="(ancestor::Row[1])/ElementName"/>
+                  <xsl:for-each select="((ancestor::InstanceReport)[1]/Columns/Column[Id=$ColumnId]/MCU//DimensionInfo)|((ancestor::Row[1])//DimensionInfo)">
+														<xsl:sort data-type="text" select="substring-after(dimensionId,'_')"/>
+                    <xsl:if test="position()=1">
+																<xsl:text>[</xsl:text>
+																</xsl:if>
+														<xsl:if test="position()>1">
+                      <xsl:text>;</xsl:text>
+                    </xsl:if>
+                    <xsl:value-of select="concat(dimensionId,'=',Id)"/>
+                    <xsl:if test="position()=last()">
+                      <xsl:text>]</xsl:text>
+                    </xsl:if>
+                  </xsl:for-each>
+												</xsl:variable>
+										<a>
+                  <xsl:if test="string-length($tmp)>0">
+                    <xsl:attribute name="title">
+                      <xsl:value-of select="$tmp"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="onclick">
+                      <xsl:text>toggleNextSibling(this);</xsl:text>
+                    </xsl:attribute>
+                  </xsl:if>
+                  <xsl:call-template name="numFilters">
+                    <xsl:with-param name="numeric">
+                      <xsl:choose>
+                        <xsl:when test="$rounding">
+                          <xsl:value-of select="RoundedNumericAmount"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:value-of select="NumericAmount"/>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:with-param>
+                  </xsl:call-template>
+                </a>
+                <span style="display:none;white-space:normal;text-align:left;">
+                  <xsl:value-of select="(ancestor::Row[1])/ElementName"/>
+                  <xsl:for-each select="((ancestor::InstanceReport)[1]/Columns/Column[Id=$ColumnId]/MCU//DimensionInfo)|((ancestor::Row[1])//DimensionInfo)">
+                    <xsl:sort data-type="text" select="substring-after(dimensionId,'_')"/>
+                    <br/>
+                    <xsl:text>/ </xsl:text>
+                    <xsl:value-of select="dimensionId"/>
+                    <br/>
+                    <xsl:text>= </xsl:text>
+                    <xsl:value-of select="Id"/>
+                  </xsl:for-each>
+                </span>
+              </xsl:otherwise>
+								</xsl:choose>
+						</xsl:when>
+						</xsl:choose>
+
+						<span> </span>
+				</td>
+
+        <xsl:if test="contains( $colsWithNotes, concat( '|', Id, '|' ) )">
+        <td class="fn" style="border-bottom: 0px;">
+            <xsl:call-template name="indexer" />
+        </td>
+        </xsl:if>
+
+        </xsl:for-each>
+    </xsl:template>
+
+	
+	
+	<xsl:template name="dateFilters">
+		<xsl:variable name="year"  select="number( substring-before( NonNumbericText, '-' ) )" />
+		<xsl:variable name="month" select="number( substring-before( substring-after( NonNumbericText, '-' ), '-' ) )" />
+		<xsl:variable name="day"   select="number( substring-after(  substring-after( NonNumbericText, '-' ), '-' ) )" />
+
+		<xsl:variable name="monthName">
+			<xsl:choose>
+			<xsl:when test="$month = 1">January</xsl:when>
+			<xsl:when test="$month = 2">February</xsl:when>
+			<xsl:when test="$month = 3">March</xsl:when>
+			<xsl:when test="$month = 4">April</xsl:when>
+			<xsl:when test="$month = 5">May</xsl:when>
+			<xsl:when test="$month = 6">June</xsl:when>
+			<xsl:when test="$month = 7">July</xsl:when>
+			<xsl:when test="$month = 8">August</xsl:when>
+			<xsl:when test="$month = 9">September</xsl:when>
+			<xsl:when test="$month = 10">October</xsl:when>
+			<xsl:when test="$month = 11">November</xsl:when>
+			<xsl:when test="$month = 12">December</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:value-of select="substring( $monthName, 1, 3 )" /><xsl:if test="$monthName != 'May'">.</xsl:if>
+		<xsl:text> </xsl:text>
+
+    <xsl:choose>
+      <xsl:when test="string-length( $day ) = 1">
+        0<xsl:value-of select="$day" />,
+        <xsl:text> </xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$day" />,
+        <xsl:text> </xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+
+		<xsl:value-of select="$year" />
+	</xsl:template>
+
+
+
+  <xsl:template name="numFilters">
+    <!-- the xsl implementations of format-number vary in handling of large numbers, so we don't use it. -->
+    <xsl:param name="numeric" />
+
+    <xsl:if test="ShowCurrencySymbol = 'true'">
+      <!-- the current context is the cell -->
+      <xsl:call-template name="lookupCurrency">
+        <xsl:with-param name="id" select="Id" />
+      </xsl:call-template>
+    </xsl:if>
+
+
+    <!-- parse numeric into a 'negative' flag and the entire number -->
+    <xsl:variable name="negative" select="substring($numeric,1,1) = '-'"/>
+    <xsl:variable name="entire">
+      <xsl:choose>
+        <xsl:when test="$negative">
+          <xsl:value-of select="substring($numeric,2)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$numeric"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <!-- parse the entire number into (whole)?(\.decimal)? -->
+    <xsl:variable name="decimal" select="substring-after( $entire, '.' )"/>
+    <xsl:variable name="whole">
+      <xsl:choose>
+        <xsl:when test="$decimal">
+          <xsl:value-of select="substring-before($entire,'.')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$entire"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <!-- output the value in parts -->
+    <xsl:if test="$negative">(</xsl:if>
+    <xsl:choose>
+      <!-- Ratio is always treated as a percentage using format-number -->
+      <xsl:when test="IsRatio = 'true'">
+        <xsl:variable name="absolute" select="number( $entire )"/>
+        <xsl:value-of select="format-number( $absolute, '0.00DDD%', 'currency' )"/>
+      </xsl:when>
+    <xsl:otherwise>
+        <xsl:call-template name="numberFormatCulture">
+          <xsl:with-param name="numberPiece" select="$whole"/>
+        </xsl:call-template>
+        <xsl:if test="string-length($decimal) > 0">
+          <xsl:value-of select="$numberDecimalSeparator"/>
+          <xsl:value-of select="$decimal"/>
+        </xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:if test="$negative">)</xsl:if>
+
+  </xsl:template>
+
+
+	
+    <xsl:template name="numberFormatCulture">
+    <xsl:param name="numberPiece"/>
+    <xsl:variable name="pieceLength" select="string-length( $numberPiece )"/>
+    <xsl:choose>
+      <xsl:when test=" $pieceLength &lt;= $numberGroupSize ">
+        <xsl:value-of select="$numberPiece"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="numberFormatCulture">
+          <xsl:with-param name="numberPiece" select="substring( $numberPiece, 0, ($pieceLength - $numberGroupSize + 1) )"/>
+        </xsl:call-template>
+        <xsl:value-of select="$numberGroupSeparator"/>
+        <xsl:value-of select="substring( $numberPiece, ($pieceLength - $numberGroupSize + 1) )"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="setCellClass">
+    <xsl:choose>
+      <xsl:when test="NumericAmount &gt;= 0 and $showFlags = 'true' and @FlagID > 0">
+        <xsl:attribute name="class">nump Flag<xsl:value-of select="@FlagID"/></xsl:attribute>
+      </xsl:when>
+      <xsl:when test="NumericAmount &gt;= 0">
+        <xsl:attribute name="class">nump</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="$showFlags = 'true' and @FlagID > 0">
+        <xsl:attribute name="class">num Flag<xsl:value-of select="@FlagID"/></xsl:attribute>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:attribute name="class">num</xsl:attribute>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="textFilters">
+      <xsl:choose>
+        <xsl:when test="string-length( NonNumbericText ) &gt; 0">
+
+          <xsl:choose>
+            <xsl:when test="string-length($majorversion) &gt; 0 and number($majorversion) &gt; 2">
+            <xsl:value-of disable-output-escaping="yes" select="NonNumbericText"/>
+          </xsl:when>
+          <xsl:when test="starts-with(NonNumbericText, 'us-gaap:Moodys') and contains(NonNumbericText, 'RatingMember')">
+              <xsl:value-of  disable-output-escaping="yes" select="substring-before(substring-after(NonNumbericText, 'us-gaap:Moodys'), 'RatingMember')"/>
+            </xsl:when>
+            <xsl:when test="starts-with(NonNumbericText, 'us-gaap:StandardPoors') and contains(NonNumbericText, 'RatingMember')">
+              <xsl:value-of  disable-output-escaping="yes" select="substring-before(substring-after(NonNumbericText, 'us-gaap:StandardPoors'), 'RatingMember')"/>
+            </xsl:when>
+            <xsl:when test="starts-with(NonNumbericText, 'us-gaap:Fitch') and contains(NonNumbericText, 'RatingMember')">
+              <xsl:value-of  disable-output-escaping="yes" select="substring-before(substring-after(NonNumbericText, 'us-gaap:Fitch'), 'RatingMember')"/>
+            </xsl:when>
+            <xsl:otherwise>
+          <xsl:value-of disable-output-escaping="yes" select="NonNumbericText" />
+            </xsl:otherwise>
+          </xsl:choose>
+
+        </xsl:when>
+        <xsl:otherwise>&#160;</xsl:otherwise>
+      </xsl:choose>
+    </xsl:template>
+
+
+    <xsl:template name="indexer">
+		<xsl:if test="( IsNumeric = 'true' or string-length( NonNumbericText ) &gt; 0 ) and string-length( FootnoteIndexer ) &gt; 0">
+		  <sup>
+			  <xsl:value-of select="FootnoteIndexer" />
+		  </sup>
+		</xsl:if>
+    </xsl:template>
+
+
+    <xsl:template name="innerFootnotes">
+		<xsl:param name="colsWithNotes" />
+
+		<xsl:if test="count( Footnotes/Footnote ) &gt; 0">
+			<xsl:variable name="cols" select="count( Columns/Column )" />
+			<xsl:variable name="idxs" select="count( Columns/Column[ contains( $colsWithNotes, concat( '|', Id, '|' ) ) ] )" />
+
+			<xsl:variable name="rowidxs">
+				<xsl:choose>
+          <xsl:when test="starts-with($colsWithNotes,'|0')">2</xsl:when>
+          <xsl:otherwise>1</xsl:otherwise>
+        </xsl:choose>
+			</xsl:variable>
+			<tr>
+				<td colspan="{ $cols + $idxs + $rowidxs }"/>
+			</tr>
+		<tr>
+        <td colspan="{ $cols + $idxs + $rowidxs }">
+          <xsl:call-template name="outerFootnotes"/>
+        </td>
+      </tr>
+    </xsl:if>
+    </xsl:template>
+
+	<xsl:template name="outerFootnotes">
+		<xsl:param name="colsWithNotes"/>
+    <xsl:if test="count( Footnotes/Footnote ) &gt; 0">
+		<xsl:variable name="cols" select="count( Columns/Column )"/>
+      <xsl:variable name="idxs" select="count( Columns/Column[ contains( $colsWithNotes, concat( '|', Id, '|' ) ) ] )"/>
+      <xsl:variable name="rowidxs">
+        <xsl:choose>
+          <xsl:when test="starts-with($colsWithNotes,'|0')">2</xsl:when>
+          <xsl:otherwise>1</xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <table class="outerFootnotes" width="100%">
+			<xsl:for-each select="Footnotes/Footnote">
+			<tr class="outerFootnote">
+				<td style="vertical-align: top;" valign="top">[<xsl:value-of select="NoteId" />]</td>
+				<td style="vertical-align: top;" valign="top"><xsl:value-of disable-output-escaping="yes" select="Note" /></td>
+			</tr>
+			</xsl:for-each>
+		</table>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="lookupCurrency">
+		<xsl:param name="id" />
+
+    <xsl:choose>
+      <xsl:when test="IsIndependantCurrency = 'true'">
+<xsl:variable name="ISOcode" select="CurrencyCode"/>
+        <xsl:choose>
+          <xsl:when test="$ISOcode = 'USD'">
+            <xsl:text disable-output-escaping="yes">$</xsl:text>
+          </xsl:when>
+        	<xsl:when test="$ISOcode = 'EUR'">
+        		<xsl:text disable-output-escaping="yes">&#x20ac;</xsl:text>
+        	</xsl:when>
+        	<xsl:when test="$ISOcode = 'GBP'">
+        		<xsl:text disable-output-escaping="yes">&#x20a4;</xsl:text>
+        	</xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$ISOcode" disable-output-escaping="yes" />
+          </xsl:otherwise>
+        </xsl:choose>
+
+      </xsl:when>
+
+      <xsl:otherwise>
+
+        <xsl:choose>
+          <xsl:when test="count( ../../../../Columns/Column[ Id = $id ]/CurrencySymbol/Code ) &gt; 0">
+            <xsl:value-of select="../../../../Columns/Column[ Id = $id ]/CurrencySymbol/Code" disable-output-escaping="yes" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="../../../../Columns/Column[ Id = $id ]/CurrencySymbol" />
+          </xsl:otherwise>
+        </xsl:choose>
+
+      </xsl:otherwise>
+    </xsl:choose>
+
+    <xsl:text> </xsl:text>
+	</xsl:template>
+	
+	<xsl:template name="nl2br">
+	<xsl:param name="content" />
+		<xsl:choose>
+			<xsl:when test="contains( $content, '&#13;&#10;' )">
+				<xsl:value-of select="substring-before($content, '&#13;&#10;')" /><br />&#10;
+				<xsl:call-template name="nl2br">
+					<xsl:with-param name="content" select="substring-after($content, '&#13;&#10;')" />
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="contains( $content, '&#10;' )">
+				<xsl:value-of select="substring-before($content, '&#10;')" /><br />&#10;
+				<xsl:call-template name="nl2br">
+					<xsl:with-param name="content" select="substring-after($content, '&#10;')" />
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$content" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template name="basename">
+		<xsl:param name="path" />
+		
+		<xsl:choose>
+		<xsl:when test="substring-after( $path, '\' )">
+			<xsl:call-template name="basename">
+				<xsl:with-param name="path" select="substring-after( $path, '\' )" />
+			</xsl:call-template>
+		</xsl:when>
+		<xsl:when test="substring-after( $path, '/' )">
+			<xsl:call-template name="basename">
+				<xsl:with-param name="path" select="substring-after( $path, '/' )" />
+			</xsl:call-template>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:value-of select="$path" />
+		</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+</xsl:stylesheet>
