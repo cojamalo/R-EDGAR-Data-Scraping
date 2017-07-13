@@ -26,10 +26,14 @@ library(rvest)
 
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
-ticker = "TSLA"
+## Input settings
+ticker = "AAPL"
 start_date = "2012-01-01" # full year date when xml and htm data started beign used
+
+# Global variables
 stopifnot(is.character(ticker))
 directory = "http://www.sec.gov/cgi-bin/browse-edgar?"
+download.file(url="https://www.sec.gov/include/InstanceReport.xslt", destfile = "temp/style.xslt", method="curl")
 
 CIK = ticker
 owner = "exclude"
@@ -37,24 +41,26 @@ action = "getcompany"
 Find = "Search"
 type = "10"
 count = "40" # Options: 100, 80, 40, 20 - 100 filings is 23 years, 40 filings is 10 years
+
+# Create inital EDGAR search url based on settings above
 final = paste0(directory,"action=",action,"&CIK=",CIK, "&type=",10,"&owner=",owner, "&count=",count)
 
+# extract the CIK code
 resp = read_html(final)
-
 CIK_code = resp %>%
     html_nodes("#documentsbutton") %>%
     .[[1]] %>% html_attr("href")
-
 CIK_code = str_extract(CIK_code, '(?<=data\\/)[^\\/]+')
-    
+
+# Extract the search result table    
 table = resp %>% 
     html_nodes(".tableFile2") %>%
     html_table()
 
+# Extract the accensio nnumbers as new columns to table
 table = table[[1]] %>% mutate(Acc_No = str_extract(Description, '(?<=Acc-no: )[^\\s]+'), Acc_No_code = gsub("-","",Acc_No))
 
-download.file(url="https://www.sec.gov/include/InstanceReport.xslt", destfile = "temp/style.xslt", method="curl")
-
+# Create url dataframe with list of base urls and index urls for all forms on table
 base = "https://www.sec.gov/Archives/edgar/data/"
 
 url_data = data.frame()
@@ -70,9 +76,9 @@ for (i in 1:nrow(table)) {
         }
 }
 url_data = url_data %>% mutate_all(as.character)
-
 rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i, new_url, owner, resp, start_date, ticker, type)
 
+# Extract the direct form link from the index url for each form in url_data
 new_col = c()
 for (i in 1:nrow(url_data)) {
     form_file = read_html(url_data$url_index[i]) %>%
@@ -90,6 +96,42 @@ for (i in 1:nrow(url_data)) {
 }
 url_data = cbind(url_data, as.character(new_col))
 rm(new_col)
+
+# Extract table within form matching key words
+
+
+earnings_list = c("net loss", "net earnings", "net income including noncontrolling interests", "consolidated net income")
+gross_list = c("Gross margin", "Income from Operations", "Operating Income", "Income before income taxes", "Operating income", "Loss from operations")
+rev_list = c("Sales to customers", "Net sales","Total revenues","Revenue", "Total revenues and other income","Total net sales and revenue","Total operating revenues","Net revenues","Revenues")
+
+regex_cond1 = "net income"
+regex_cond2 = "gross profit"
+regex_cond3 = "Total revenue"
+for(word in earnings_list) { regex_cond1 = paste0(regex_cond1,"|",word) }
+for(word in gross_list) { regex_cond1 = paste0(regex_cond2,"|",word) }
+for(word in rev_list) { regex_cond1 = paste0(regex_cond3,"|",word) }
+
+
+for (url in url_data$new_col) {
+    download.file(url, destfile = "temp/temp_form.htm")
+    form_data = read_html("temp/temp_form.htm") %>%
+        html_nodes("table") 
+    for (i in 1:length(form_data)) {
+        form_table = form_data[i] %>%
+            html_table(fill=TRUE) %>%
+            .[[1]]
+        if ((any(grepl(regex_cond1, form_table[,1], ignore.case = TRUE)) & any(grepl(regex_cond2, form_table[,1], ignore.case = TRUE)) & any(grepl(regex_cond3, form_table[,1], ignore.case = TRUE)))) {
+            table_match = list(form_table)
+            break
+        }
+    }
+}
+
+
+
+
+
+
 
 build_sales_hist = function(url_df) {
     for (i in 1:nrow(url_df)) {
