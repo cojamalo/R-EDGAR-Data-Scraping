@@ -109,6 +109,8 @@ find_table_R_xml = function(url_df_row) {
 }
 
 
+untidy_fin_hist = build_sales_hist(url_data)
+write.csv(test,file='untidy_fin_hist.csv', sep = ",")
 
 
 
