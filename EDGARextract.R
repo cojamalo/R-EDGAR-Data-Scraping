@@ -27,8 +27,8 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "AAPL"
-start_date = "2012-01-01" # full year date when xml and htm data started beign used
+ticker = "WYNN"
+start_date = "2014-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
 stopifnot(is.character(ticker))
@@ -78,31 +78,31 @@ for (i in 1:nrow(table)) {
 url_data = url_data %>% mutate_all(as.character)
 rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i, new_url, owner, resp, start_date, ticker, type)
 
-# Extract the direct form link from the index url for each form in url_data
-form_urls = c()
-for (i in 1:nrow(url_data)) {
-    form_file = read_html(url_data$url_index[i]) %>%
-                    html_nodes(".tableFile") %>%
-                    .[[1]] %>%
-                    html_table %>%
-                    filter(Type == "10-K" | Type == "10-Q") %>%
-                    .$Document
-    form_url = paste0(url_data$url_base[i],"/",form_file) 
-    if (GET(form_url)$status_code != 200) {
-        print("error - bad link")
-        break
-        }
-    form_urls = c(form_urls, form_url)
-}
-url_data = cbind(url_data, form_urls)
-url_data$form_urls = as.character(url_data$form_urls)
-rm(form_urls)
+# # Extract the direct form link from the index url for each form in url_data
+# form_urls = c()
+# for (i in 1:nrow(url_data)) {
+#     form_file = read_html(url_data$url_index[i]) %>%
+#                     html_nodes(".tableFile") %>%
+#                     .[[1]] %>%
+#                     html_table %>%
+#                     filter(Type == "10-K" | Type == "10-Q") %>%
+#                     .$Document
+#     form_url = paste0(url_data$url_base[i],"/",form_file) 
+#     if (GET(form_url)$status_code != 200) {
+#         print("error - bad link")
+#         break
+#         }
+#     form_urls = c(form_urls, form_url)
+# }
+# url_data = cbind(url_data, form_urls)
+# url_data$form_urls = as.character(url_data$form_urls)
+# rm(form_urls)
 
 # Extract table within form matching key words
-earnings_list = c("net loss", "net earnings", "net income including noncontrolling interests", "consolidated net income")
-gross_list = c("gross margin", "income from operations", "operating income", "income before income taxes", "operating income", "loss from operations", "total revenues and other income")
-rev_list = c("sales to customers", "sales and other operating revenue","net sales","total revenues","revenue", "total revenues and other income","total net sales and revenue","total operating revenues","net revenues","revenues")
-cost_list = c("cost of products sold", "cost of sales", "cost of revenues", "operating expenses", "costs and other deductions", "costs and expenses", "interest expense", "total operating expenses")
+earnings_list = c("net loss", "net earnings", "net income including noncontrolling interests", "consolidated net income","net income (loss)")
+gross_list = c("gross margin", "income from operations", "operating income", "income before income taxes", "operating income", "loss from operations", "total revenues and other income", "income (loss) before income taxes")
+rev_list = c("sales to customers", "sales and other operating revenue","net sales","total revenues","revenue", "total revenues and other income","total net sales and revenue","total operating revenues","net revenues","revenues", "total revenue, net of interest expense")
+cost_list = c("cost of products sold", "cost of sales", "cost of revenues", "operating expenses", "costs and other deductions", "costs and expenses", "interest expense", "total operating expenses", "total noninterest expense")
 
 regex_cond1 = "net income"
 regex_cond2 = "gross profit"
@@ -165,7 +165,7 @@ for(word in cost_list) { regex_cond4 = paste0(regex_cond4,"|",word) }
 
 
 build_sales_hist = function(url_df) {
-    if (exists("first_col")) {rm(first_col)}
+    first_col <<- c("revenue", "cost_of_revenue", "gross_profit", "net_earnings")
     for (i in 1:nrow(url_df)) {
         htm_check = paste0(url_df$url_base[i],"/R1.htm")
         xml_check = paste0(url_df$url_base[i],"/R1.xml")
@@ -197,7 +197,7 @@ build_sales_hist = function(url_df) {
 }
 
 find_table_R_htm = function(url_df_row) {
-    for (i in 1:10) {
+    for (i in 1:200) {
         R_url = paste0(url_df_row$url_base,"/R",as.character(i),".htm")
         table = read_html(R_url) %>% 
             html_nodes(".report") %>%
@@ -226,12 +226,7 @@ find_table_R_htm = function(url_df_row) {
             row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}))[1]
             row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))[1]
             table = table[c(row3,row4,row2,row1),]
-            if (!exists("first_col")) {
-                first_col <<- table[,1]     
-            }
-            else {
-                table[,1] = first_col    
-            }
+            table[,1] = first_col    
             names(table) = c("record", url_df_row$date)
             return(table[,1:2])
         }
@@ -241,7 +236,7 @@ find_table_R_htm = function(url_df_row) {
 
 find_table_R_xml = function(url_df_row) {
     style <- read_xml("temp/style.xslt", package = "xslt")
-    for (i in 1:10) {
+    for (i in 1:200) {
         R_url = paste0(url_df_row$url,"/R",as.character(i),".xml")
         download.file(url=R_url, destfile = "temp/doc.xml", method="curl")
         doc <- read_xml("temp/doc.xml", package = "xslt")
@@ -273,12 +268,7 @@ find_table_R_xml = function(url_df_row) {
             row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}))[1]
             row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))[1]
             table = table[c(row3,row4,row2,row1),]
-            if (!exists("first_col")) {
-                first_col <<- table[,1]     
-            }
-            else {
-                table[,1] = first_col    
-            }
+            table[,1] = first_col
             names(table) = c("record", url_df_row$date)
             return(table[,1:2])
         }
