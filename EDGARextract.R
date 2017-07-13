@@ -10,7 +10,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ticker = "TSLA"
-start_date = "2011-01-01" # full year date when xml and htm data started beign used
+start_date = "2012-01-01" # full year date when xml and htm data started beign used
 stopifnot(is.character(ticker))
 directory = "http://www.sec.gov/cgi-bin/browse-edgar?"
 
