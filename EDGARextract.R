@@ -27,7 +27,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "AOS"
+ticker = "FB"
 start_date = "2014-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -221,6 +221,7 @@ find_table_R_htm = function(url_df_row) {
              any(grepl(regex_cond2, table, ignore.case = TRUE)) &
              any(grepl(regex_cond3, table, ignore.case = TRUE)) &
              any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
+            table[table==""]=NA
             row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
             for (i in 1:nrow(row1)) {
                 if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
@@ -295,6 +296,7 @@ find_table_R_xml = function(url_df_row) {
              any(grepl(regex_cond2, table, ignore.case = TRUE)) &
              any(grepl(regex_cond3, table, ignore.case = TRUE)) &
              any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
+            table[table==""]=NA
             row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
             for (i in 1:nrow(row1)) {
                 if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
