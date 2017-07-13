@@ -10,7 +10,7 @@
       <Id>1</Id>
       <Labels>
         <Label Id="1" Label="3 Months Ended" />
-        <Label Id="2" Label="Dec. 26, 2009" />
+        <Label Id="2" Label="Jun. 27, 2009" />
       </Labels>
       <CurrencySymbol>$</CurrencySymbol>
       <hasSegments>false</hasSegments>
@@ -19,7 +19,17 @@
       <Scenarios />
       <Units>
         <Unit>
-          <UnitID>iso4217_USD</UnitID>
+          <UnitID>Shares</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
           <UnitType>Standard</UnitType>
           <StandardMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -29,7 +39,7 @@
           <Scale>0</Scale>
         </Unit>
         <Unit>
-          <UnitID>iso4217_USD_per_shares</UnitID>
+          <UnitID>USDperShareItemType</UnitID>
           <UnitType>Divide</UnitType>
           <NumeratorMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -41,16 +51,6 @@
             <MeasureValue>shares</MeasureValue>
             <MeasureNamespace />
           </DenominatorMeasure>
-          <Scale>0</Scale>
-        </Unit>
-        <Unit>
-          <UnitID>shares</UnitID>
-          <UnitType>Standard</UnitType>
-          <StandardMeasure>
-            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
-            <MeasureValue>shares</MeasureValue>
-            <MeasureNamespace />
-          </StandardMeasure>
           <Scale>0</Scale>
         </Unit>
       </Units>
@@ -60,7 +60,7 @@
       <Id>2</Id>
       <Labels>
         <Label Id="1" Label="3 Months Ended" />
-        <Label Id="2" Label="Dec. 27, 2008" />
+        <Label Id="2" Label="Jun. 28, 2008" />
       </Labels>
       <CurrencySymbol>$</CurrencySymbol>
       <hasSegments>false</hasSegments>
@@ -69,7 +69,17 @@
       <Scenarios />
       <Units>
         <Unit>
-          <UnitID>iso4217_USD</UnitID>
+          <UnitID>Shares</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
           <UnitType>Standard</UnitType>
           <StandardMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -79,7 +89,7 @@
           <Scale>0</Scale>
         </Unit>
         <Unit>
-          <UnitID>iso4217_USD_per_shares</UnitID>
+          <UnitID>USDperShareItemType</UnitID>
           <UnitType>Divide</UnitType>
           <NumeratorMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
@@ -93,14 +103,104 @@
           </DenominatorMeasure>
           <Scale>0</Scale>
         </Unit>
+      </Units>
+    </Column>
+    <Column>
+      <LabelColumn>false</LabelColumn>
+      <Id>3</Id>
+      <Labels>
+        <Label Id="1" Label="9 Months Ended" />
+        <Label Id="2" Label="Jun. 27, 2009" />
+      </Labels>
+      <CurrencySymbol>$</CurrencySymbol>
+      <hasSegments>false</hasSegments>
+      <hasScenarios>false</hasScenarios>
+      <Segments />
+      <Scenarios />
+      <Units>
         <Unit>
-          <UnitID>shares</UnitID>
+          <UnitID>Shares</UnitID>
           <UnitType>Standard</UnitType>
           <StandardMeasure>
             <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
             <MeasureValue>shares</MeasureValue>
             <MeasureNamespace />
           </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
+            <MeasureValue>USD</MeasureValue>
+            <MeasureNamespace>iso4217</MeasureNamespace>
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USDperShareItemType</UnitID>
+          <UnitType>Divide</UnitType>
+          <NumeratorMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
+            <MeasureValue>USD</MeasureValue>
+            <MeasureNamespace>iso4217</MeasureNamespace>
+          </NumeratorMeasure>
+          <DenominatorMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </DenominatorMeasure>
+          <Scale>0</Scale>
+        </Unit>
+      </Units>
+    </Column>
+    <Column>
+      <LabelColumn>false</LabelColumn>
+      <Id>4</Id>
+      <Labels>
+        <Label Id="1" Label="9 Months Ended" />
+        <Label Id="2" Label="Jun. 28, 2008" />
+      </Labels>
+      <CurrencySymbol>$</CurrencySymbol>
+      <hasSegments>false</hasSegments>
+      <hasScenarios>false</hasScenarios>
+      <Segments />
+      <Scenarios />
+      <Units>
+        <Unit>
+          <UnitID>Shares</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USD</UnitID>
+          <UnitType>Standard</UnitType>
+          <StandardMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
+            <MeasureValue>USD</MeasureValue>
+            <MeasureNamespace>iso4217</MeasureNamespace>
+          </StandardMeasure>
+          <Scale>0</Scale>
+        </Unit>
+        <Unit>
+          <UnitID>USDperShareItemType</UnitID>
+          <UnitType>Divide</UnitType>
+          <NumeratorMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/iso4217</MeasureSchema>
+            <MeasureValue>USD</MeasureValue>
+            <MeasureNamespace>iso4217</MeasureNamespace>
+          </NumeratorMeasure>
+          <DenominatorMeasure>
+            <MeasureSchema>http://www.xbrl.org/2003/instance</MeasureSchema>
+            <MeasureValue>shares</MeasureValue>
+            <MeasureNamespace />
+          </DenominatorMeasure>
           <Scale>0</Scale>
         </Unit>
       </Units>
@@ -132,11 +232,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>15683000000</NumericAmount>
-          <RoundedNumericAmount>15683</RoundedNumericAmount>
+          <NumericAmount>8337000000</NumericAmount>
+          <RoundedNumericAmount>8337</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -144,11 +244,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>11880000000</NumericAmount>
-          <RoundedNumericAmount>11880</RoundedNumericAmount>
+          <NumericAmount>7464000000</NumericAmount>
+          <RoundedNumericAmount>7464</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>26667000000</NumericAmount>
+          <RoundedNumericAmount>26667</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>24584000000</NumericAmount>
+          <RoundedNumericAmount>24584</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -182,11 +306,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>9272000000</NumericAmount>
-          <RoundedNumericAmount>9272</RoundedNumericAmount>
+          <NumericAmount>5314000000</NumericAmount>
+          <RoundedNumericAmount>5314</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -194,11 +318,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>7373000000</NumericAmount>
-          <RoundedNumericAmount>7373</RoundedNumericAmount>
+          <NumericAmount>4864000000</NumericAmount>
+          <RoundedNumericAmount>4864</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>17141000000</NumericAmount>
+          <RoundedNumericAmount>17141</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>16178000000</NumericAmount>
+          <RoundedNumericAmount>16178</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -232,11 +380,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>6411000000</NumericAmount>
-          <RoundedNumericAmount>6411</RoundedNumericAmount>
+          <NumericAmount>3023000000</NumericAmount>
+          <RoundedNumericAmount>3023</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -244,11 +392,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>4507000000</NumericAmount>
-          <RoundedNumericAmount>4507</RoundedNumericAmount>
+          <NumericAmount>2600000000</NumericAmount>
+          <RoundedNumericAmount>2600</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>9526000000</NumericAmount>
+          <RoundedNumericAmount>9526</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>8406000000</NumericAmount>
+          <RoundedNumericAmount>8406</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -302,6 +474,30 @@
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>false</IsNumeric>
+          <NumericAmount>0</NumericAmount>
+          <RoundedNumericAmount>0</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>false</IsNumeric>
+          <NumericAmount>0</NumericAmount>
+          <RoundedNumericAmount>0</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
       </Cells>
       <ElementDefenition>No definition available.</ElementDefenition>
       <IsTotalLabel>false</IsTotalLabel>
@@ -331,11 +527,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>398000000</NumericAmount>
-          <RoundedNumericAmount>398</RoundedNumericAmount>
+          <NumericAmount>341000000</NumericAmount>
+          <RoundedNumericAmount>341</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -343,11 +539,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>315000000</NumericAmount>
-          <RoundedNumericAmount>315</RoundedNumericAmount>
+          <NumericAmount>292000000</NumericAmount>
+          <RoundedNumericAmount>292</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>975000000</NumericAmount>
+          <RoundedNumericAmount>975</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>811000000</NumericAmount>
+          <RoundedNumericAmount>811</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -358,7 +578,7 @@
     </Row>
     <Row>
       <Id>10</Id>
-      <Label>Selling, general and administrative</Label>
+      <Label>Selling, general, and administrative</Label>
       <Level>4</Level>
       <ElementName>us-gaap_SellingGeneralAndAdministrativeExpense</ElementName>
       <ElementPrefix>us-gaap</ElementPrefix>
@@ -381,11 +601,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>1288000000</NumericAmount>
-          <RoundedNumericAmount>1288</RoundedNumericAmount>
+          <NumericAmount>1010000000</NumericAmount>
+          <RoundedNumericAmount>1010</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -393,11 +613,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>1091000000</NumericAmount>
-          <RoundedNumericAmount>1091</RoundedNumericAmount>
+          <NumericAmount>916000000</NumericAmount>
+          <RoundedNumericAmount>916</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>3086000000</NumericAmount>
+          <RoundedNumericAmount>3086</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>2762000000</NumericAmount>
+          <RoundedNumericAmount>2762</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -431,11 +675,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>1686000000</NumericAmount>
-          <RoundedNumericAmount>1686</RoundedNumericAmount>
+          <NumericAmount>1351000000</NumericAmount>
+          <RoundedNumericAmount>1351</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -443,11 +687,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>1406000000</NumericAmount>
-          <RoundedNumericAmount>1406</RoundedNumericAmount>
+          <NumericAmount>1208000000</NumericAmount>
+          <RoundedNumericAmount>1208</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>4061000000</NumericAmount>
+          <RoundedNumericAmount>4061</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>3573000000</NumericAmount>
+          <RoundedNumericAmount>3573</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -481,11 +749,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>4725000000</NumericAmount>
-          <RoundedNumericAmount>4725</RoundedNumericAmount>
+          <NumericAmount>1672000000</NumericAmount>
+          <RoundedNumericAmount>1672</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -493,11 +761,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>3101000000</NumericAmount>
-          <RoundedNumericAmount>3101</RoundedNumericAmount>
+          <NumericAmount>1392000000</NumericAmount>
+          <RoundedNumericAmount>1392</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>5465000000</NumericAmount>
+          <RoundedNumericAmount>5465</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>4833000000</NumericAmount>
+          <RoundedNumericAmount>4833</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -531,11 +823,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>33000000</NumericAmount>
-          <RoundedNumericAmount>33</RoundedNumericAmount>
+          <NumericAmount>60000000</NumericAmount>
+          <RoundedNumericAmount>60</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -543,11 +835,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>158000000</NumericAmount>
-          <RoundedNumericAmount>158</RoundedNumericAmount>
+          <NumericAmount>118000000</NumericAmount>
+          <RoundedNumericAmount>118</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>281000000</NumericAmount>
+          <RoundedNumericAmount>281</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>480000000</NumericAmount>
+          <RoundedNumericAmount>480</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -581,11 +897,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>4758000000</NumericAmount>
-          <RoundedNumericAmount>4758</RoundedNumericAmount>
+          <NumericAmount>1732000000</NumericAmount>
+          <RoundedNumericAmount>1732</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -593,11 +909,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>3259000000</NumericAmount>
-          <RoundedNumericAmount>3259</RoundedNumericAmount>
+          <NumericAmount>1510000000</NumericAmount>
+          <RoundedNumericAmount>1510</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>5746000000</NumericAmount>
+          <RoundedNumericAmount>5746</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>5313000000</NumericAmount>
+          <RoundedNumericAmount>5313</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -631,11 +971,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>1380000000</NumericAmount>
-          <RoundedNumericAmount>1380</RoundedNumericAmount>
+          <NumericAmount>503000000</NumericAmount>
+          <RoundedNumericAmount>503</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -643,11 +983,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>1004000000</NumericAmount>
-          <RoundedNumericAmount>1004</RoundedNumericAmount>
+          <NumericAmount>438000000</NumericAmount>
+          <RoundedNumericAmount>438</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>1707000000</NumericAmount>
+          <RoundedNumericAmount>1707</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>1615000000</NumericAmount>
+          <RoundedNumericAmount>1615</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -681,11 +1045,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>3378000000</NumericAmount>
-          <RoundedNumericAmount>3378</RoundedNumericAmount>
+          <NumericAmount>1229000000</NumericAmount>
+          <RoundedNumericAmount>1229</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -693,11 +1057,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>2255000000</NumericAmount>
-          <RoundedNumericAmount>2255</RoundedNumericAmount>
+          <NumericAmount>1072000000</NumericAmount>
+          <RoundedNumericAmount>1072</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>4039000000</NumericAmount>
+          <RoundedNumericAmount>4039</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>3698000000</NumericAmount>
+          <RoundedNumericAmount>3698</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -751,6 +1139,30 @@
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>false</IsNumeric>
+          <NumericAmount>0</NumericAmount>
+          <RoundedNumericAmount>0</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>false</IsNumeric>
+          <NumericAmount>0</NumericAmount>
+          <RoundedNumericAmount>0</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
       </Cells>
       <ElementDefenition>No definition available.</ElementDefenition>
       <IsTotalLabel>false</IsTotalLabel>
@@ -780,11 +1192,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>3.74</NumericAmount>
-          <RoundedNumericAmount>3.74</RoundedNumericAmount>
+          <NumericAmount>1.38</NumericAmount>
+          <RoundedNumericAmount>1.38</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -792,11 +1204,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>2.54</NumericAmount>
-          <RoundedNumericAmount>2.54</RoundedNumericAmount>
+          <NumericAmount>1.21</NumericAmount>
+          <RoundedNumericAmount>1.21</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>4.53</NumericAmount>
+          <RoundedNumericAmount>4.53</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>4.20</NumericAmount>
+          <RoundedNumericAmount>4.20</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -830,11 +1266,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>3.67</NumericAmount>
-          <RoundedNumericAmount>3.67</RoundedNumericAmount>
+          <NumericAmount>1.35</NumericAmount>
+          <RoundedNumericAmount>1.35</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -842,11 +1278,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>true</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>2.50</NumericAmount>
-          <RoundedNumericAmount>2.50</RoundedNumericAmount>
+          <NumericAmount>1.19</NumericAmount>
+          <RoundedNumericAmount>1.19</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>4.47</NumericAmount>
+          <RoundedNumericAmount>4.47</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>true</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>4.10</NumericAmount>
+          <RoundedNumericAmount>4.10</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -859,7 +1319,7 @@
       <Id>20</Id>
       <Label>Shares used in computing earnings per share:</Label>
       <Level>3</Level>
-      <ElementName>us-gaap_WeightedAverageNumberOfSharesOutstandingAbstract</ElementName>
+      <ElementName>us-gaap_SharesUsedInComputationOfEarningsLossPerShareAbstract</ElementName>
       <ElementPrefix>us-gaap</ElementPrefix>
       <IsBaseElement>true</IsBaseElement>
       <BalanceType>na</BalanceType>
@@ -900,6 +1360,30 @@
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>false</IsNumeric>
+          <NumericAmount>0</NumericAmount>
+          <RoundedNumericAmount>0</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>false</IsNumeric>
+          <NumericAmount>0</NumericAmount>
+          <RoundedNumericAmount>0</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
       </Cells>
       <ElementDefenition>No definition available.</ElementDefenition>
       <IsTotalLabel>false</IsTotalLabel>
@@ -929,11 +1413,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>903542000</NumericAmount>
-          <RoundedNumericAmount>903542</RoundedNumericAmount>
+          <NumericAmount>893712000</NumericAmount>
+          <RoundedNumericAmount>893712</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -941,11 +1425,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>889142000</NumericAmount>
-          <RoundedNumericAmount>889142</RoundedNumericAmount>
+          <NumericAmount>883738000</NumericAmount>
+          <RoundedNumericAmount>883738</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>891345000</NumericAmount>
+          <RoundedNumericAmount>891345</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>879753000</NumericAmount>
+          <RoundedNumericAmount>879753</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -979,11 +1487,11 @@
           <Id>1</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>919783000</NumericAmount>
-          <RoundedNumericAmount>919783</RoundedNumericAmount>
+          <NumericAmount>909160000</NumericAmount>
+          <RoundedNumericAmount>909160</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -991,11 +1499,35 @@
           <Id>2</Id>
           <ShowCurrencySymbol>false</ShowCurrencySymbol>
           <IsNumeric>true</IsNumeric>
-          <NumericAmount>901494000</NumericAmount>
-          <RoundedNumericAmount>901494</RoundedNumericAmount>
+          <NumericAmount>903167000</NumericAmount>
+          <RoundedNumericAmount>903167</RoundedNumericAmount>
           <NonNumbericText />
           <NonNumericTextHeader />
-          <FootnoteIndexer>[1]</FootnoteIndexer>
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>3</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>904549000</NumericAmount>
+          <RoundedNumericAmount>904549</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
+          <hasSegments>false</hasSegments>
+          <hasScenarios>false</hasScenarios>
+        </Cell>
+        <Cell>
+          <Id>4</Id>
+          <ShowCurrencySymbol>false</ShowCurrencySymbol>
+          <IsNumeric>true</IsNumeric>
+          <NumericAmount>901028000</NumericAmount>
+          <RoundedNumericAmount>901028</RoundedNumericAmount>
+          <NonNumbericText />
+          <NonNumericTextHeader />
+          <FootnoteIndexer />
           <hasSegments>false</hasSegments>
           <hasScenarios>false</hasScenarios>
         </Cell>
@@ -1005,14 +1537,9 @@
       <IsTotalLabel>false</IsTotalLabel>
     </Row>
   </Rows>
-  <Footnotes>
-    <Footnote>
-      <NoteId>1</NoteId>
-      <Note>See Note 2, "Retrospective Adoption of New Accounting Principles" of this Form 10-Q.</Note>
-    </Footnote>
-  </Footnotes>
+  <Footnotes />
   <ComparabilityReport>false</ComparabilityReport>
-  <NumberOfCols>2</NumberOfCols>
+  <NumberOfCols>4</NumberOfCols>
   <NumberOfRows>18</NumberOfRows>
   <HasScenarios>false</HasScenarios>
   <MonetaryRoundingLevel>Millions</MonetaryRoundingLevel>
