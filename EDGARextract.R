@@ -10,7 +10,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ticker = "AAPL"
-start_date = "2009-06-01" # date when xml and htm data started beign used
+start_date = "2010-01-01" # full year date when xml and htm data started beign used
 stopifnot(is.character(ticker))
 directory = "http://www.sec.gov/cgi-bin/browse-edgar?"
 
@@ -121,7 +121,7 @@ unformated_fin_hist = untidy_fin_hist[,apply(untidy_fin_hist, 2, function(x) {me
 library(lubridate)
 unformated_fin_hist$date = gsub("\\.|[a-z]","", unformated_fin_hist$date) %>% ymd
 fin_hist = unformated_fin_hist %>% mutate_if(is.character, funs(gsub("\\D|^\\.", "", .))) %>% mutate_if(is.character, as.numeric)
-
-
+fin_hist_q = fin_hist %>% filter(month(date) != 10)
+fin_hist_k= fin_hist %>% filter(month(date) == 10)
 
 
