@@ -27,7 +27,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "AOS"
+ticker = "XOM"
 start_date = "2014-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -100,7 +100,7 @@ rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i
 
 # Extract table within form matching key words
 earnings_list = c("^net loss$", "net earnings", 
-                  "net income including noncontrolling interests", 
+                  "(net income attributable to)(?! noncontrolling interests)", 
                   "consolidated net income","^net income \\(loss\\)$")
 gross_list = c("gross margin", "income from operations", "operating income", 
                "income before income taxes", "operating income", 
@@ -268,10 +268,10 @@ find_table_R_htm = function(url_df_row) {
             apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
             as.data.frame(stringsAsFactors=FALSE)
         
-        if (any(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)})) &
-            any(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)})) &
-            any(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)})) &
-            any(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))) {
+        if (any(apply(table, 2, function(x) {str_detect(x, regex_cond1)})) &
+            any(apply(table, 2, function(x) {str_detect(x, regex_cond2)})) &
+            any(apply(table, 2, function(x) {str_detect(x, regex_cond3)})) &
+            any(apply(table, 2, function(x) {str_detect(x, regex_cond4)}))) {
             table[table==""]=NA
             table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
             if (any(apply(table, 2, function(x) {grepl(regex_units_mil, x, ignore.case = TRUE)}))) {
@@ -283,7 +283,7 @@ find_table_R_htm = function(url_df_row) {
             else {
                 units = "unknown"  
             }
-            row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
+            row1=which(apply(table, 2, function(x) {str_detect(x, regex_cond1)}), arr.ind=T)
             for (i in 1:nrow(row1)) {
                 if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
                 else {
@@ -293,7 +293,7 @@ find_table_R_htm = function(url_df_row) {
             }
             if (class(row1) == "matrix") {row1 = row1[1,1]}
             #row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}), arr.ind=T)
-            row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}), arr.ind=T)
+            row3=which(apply(table, 2, function(x) {str_detect(x, regex_cond3)}), arr.ind=T)
             for (i in 1:nrow(row3)) {
                 if (is.na(table[row3[i,1],row3[i,2]+1])) {}
                 else {
@@ -303,7 +303,7 @@ find_table_R_htm = function(url_df_row) {
             }
             if (class(row3) == "matrix") {row3 = row3[1,1]}
             #row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}), arr.ind=T)
-            row5=which(apply(table, 2, function(x) {grepl(regex_cond5, x, ignore.case = TRUE)}), arr.ind=T)
+            row5=which(apply(table, 2, function(x) {str_detect(x, regex_cond5)}), arr.ind=T)
             found = FALSE
             for (i in 1:nrow(row5)) {
                 if (is.na(table[row5[i,1],row5[i,2]+1])) {
@@ -331,7 +331,6 @@ find_table_R_htm = function(url_df_row) {
             names(table) = c("record", url_df_row$date, "units")
             return(table)
         }
-    }
     print("No table found")
     return (0)
 }
