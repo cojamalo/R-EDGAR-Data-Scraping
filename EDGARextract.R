@@ -187,13 +187,19 @@ build_sales_hist = function(url_df) {
         
         if (data == 0) {}
         else {
-            ### Need to deal with negatives expressed as (.*) and keeping "-"
-            data[,2] = as.numeric(gsub("\\D", "", data[,2]))
+            data_out = data %>%
+                mutate(fix_neg = apply(table[,1:2], 2, function(x) {grepl("\\)|\\(",x)})[,2], 
+                       fixed = ifelse(fix_neg, sub("\\(","-", .[[2]]), .[[2]]), 
+                       fixed = ifelse(fix_neg, sub("\\)","",fixed), .[[2]]), 
+                       fixed = ifelse(fix_neg, gsub("[^-]\\D","",fixed), gsub("\\D","",fixed))) %>%
+                select(record, fixed)
+            colnames(data_out)[2] = colnames(data)[2]
+            
            if (!exists("output")) {
-               output = data
+               output = data_out
            }
            else {
-               output = left_join(output, data[,1:2], by="record")
+               output = left_join(output, data_out, by="record")
            }
         }
     } 
