@@ -27,7 +27,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "AAL"
+ticker = "ALDR"
 start_date = "2014-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -99,12 +99,12 @@ rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i
 # rm(form_urls)
 
 # Extract table within form matching key words
-earnings_list = c("net loss", "net earnings", "net income including noncontrolling interests", "consolidated net income","net income \\(loss\\)")
-gross_list = c("gross margin", "income from operations", "operating income", "income before income taxes", "operating income", "loss from operations", "total revenues and other income", "income \\(loss\\) before income taxes")
-rev_list = c("sales to customers", "sales and other operating revenue","net sales","total revenues","total revenues and other income","total net sales and revenue","total operating revenues","net revenues", "total revenue, net of interest expense", "revenue")
+earnings_list = c("^net loss$", "net earnings", "net income including noncontrolling interests", "consolidated net income","^net income \\(loss\\)$")
+gross_list = c("gross margin", "income from operations", "operating income", "income before income taxes", "operating income", "net income \\(loss\\) before equity in net loss of unconsolidated entity", "net income (loss) before equity in net loss of unconsolidated entity","total revenues and other income", "income \\(loss\\) before income taxes")
+rev_list = c("loss from operations","sales to customers", "sales and other operating revenue","net sales","total revenues","total revenues and other income","total net sales and revenue","total operating revenues","net revenues", "total revenue, net of interest expense", "revenue", "income \\(loss\\) from operations")
 cost_list = c("cost of products sold", "cost of sales", "total cost of revenues", "cost of revenue", "cost of revenues","operating expenses", "costs and other deductions", "costs and expenses", "interest expense", "total operating expenses", "total noninterest expense")
 
-regex_cond1 = "net income"
+regex_cond1 = "^net income$"
 regex_cond2 = "gross profit"
 regex_cond3 = "total revenue"
 regex_cond4 = "total cost of revenue"
@@ -184,6 +184,7 @@ build_sales_hist = function(url_df) {
         
         if (data == 0) {}
         else {
+            data[,2] = ifelse(grepl("")
             data[,2] = as.numeric(gsub("\\D", "", data[,2]))
            if (!exists("output")) {
                output = data
@@ -217,10 +218,10 @@ find_table_R_htm = function(url_df_row) {
             apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
             as.data.frame(stringsAsFactors=FALSE)
         
-        if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
-             any(grepl(regex_cond2, table, ignore.case = TRUE)) &
-             any(grepl(regex_cond3, table, ignore.case = TRUE)) &
-             any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
+        if (any(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)})) &
+            any(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)})) &
+            any(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)})) &
+            any(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))) {
             table[table==""]=NA
             table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
             row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
@@ -294,10 +295,10 @@ find_table_R_xml = function(url_df_row) {
             apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
             as.data.frame(stringsAsFactors=FALSE)
         
-        if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
-             any(grepl(regex_cond2, table, ignore.case = TRUE)) &
-             any(grepl(regex_cond3, table, ignore.case = TRUE)) &
-             any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
+        if (any(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)})) &
+            any(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)})) &
+            any(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)})) &
+            any(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))) {
             table[table==""]=NA
             table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
             row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
@@ -347,7 +348,7 @@ find_table_R_xml = function(url_df_row) {
 
 
 untidy_fin_hist = build_sales_hist(url_data)
-head(untidy_fin_hist)
+
 
 
 # write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
@@ -365,67 +366,69 @@ head(untidy_fin_hist)
 # 
 # 
 # 
-# table = read_html("https://www.sec.gov/Archives/edgar/data/6201/000119312515351246/R2.htm") %>%
-#     html_nodes(".report") %>%
-#     html_table(fill=TRUE) %>%
-#     .[[1]]
-# if (names(table)[1] == names(table)[2]) {
-#     table[,2] = NULL
-# }
-# for (j in 1:ncol(table)) {
-#     colnames(table)[j] = as.character(j)
-# }
-# 
-# table = table %>%
-#     apply(2, function(x) {gsub("[\r\n]", "", x)}) %>%
-#     as.data.frame(stringsAsFactors=FALSE) %>%
-#     mutate_if(is.character, tolower) %>%
-#     apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
-#     as.data.frame(stringsAsFactors=FALSE)
-# 
-# if ((any(grepl(regex_cond1, table, ignore.case = TRUE)) &
-#      any(grepl(regex_cond2, table, ignore.case = TRUE)) &
-#      any(grepl(regex_cond3, table, ignore.case = TRUE)) &
-#      any(grepl(regex_cond4, table, ignore.case = TRUE)))) {
-#     table[table==""]=NA
-#     table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
-#     row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
-#     for (i in 1:nrow(row1)) {
-#         if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
-#         else {
-#             row1 = row1[i,1]
-#             break
-#         }
-#     }
-#     if (class(row1) == "matrix") {row1 = row1[1,1]}
-#     row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}), arr.ind=T)
-#     for (i in 1:nrow(row2)) {
-#         if (is.na(table[row2[i,1],row2[i,2]+1])) {}
-#         else {
-#             row2 = row2[i,1]
-#             break
-#         }
-#     }
-#     if (class(row2) == "matrix") {row2 = row2[1,1]}
-#     row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}), arr.ind=T)
-#     for (i in 1:nrow(row3)) {
-#         if (is.na(table[row3[i,1],row3[i,2]+1])) {}
-#         else {
-#             row3 = row3[i,1]
-#             break
-#         }
-#     }
-#     if (class(row3) == "matrix") {row3 = row3[1,1]}
-#     row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}), arr.ind=T)
-#     for (i in 1:nrow(row4)) {
-#         if (is.na(table[row4[i,1],row4[i,2]+1])) {}
-#         else {
-#             row4 = row4[i,1]
-#             break
-#         }
-#     }
-#     if (class(row4) == "matrix") {row4 = row4[1,1]}
-#     table = table[c(row3,row4,row2,row1),]
-#     table[,1] = first_col
-#     table[,1:2]
-# }
+table = read_html("https://www.sec.gov/Archives/edgar/data/1423824/000156459017002198/R4.htm") %>%
+    html_nodes(".report") %>%
+    html_table(fill=TRUE) %>%
+    .[[1]]
+if (names(table)[1] == names(table)[2]) {
+    table[,2] = NULL
+}
+for (j in 1:ncol(table)) {
+    colnames(table)[j] = as.character(j)
+}
+
+table = table %>%
+    apply(2, function(x) {gsub("[\r\n]", "", x)}) %>%
+    as.data.frame(stringsAsFactors=FALSE) %>%
+    mutate_if(is.character, tolower) %>%
+    apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
+    as.data.frame(stringsAsFactors=FALSE)
+
+if (any(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)})) &
+     any(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)})) &
+     any(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)})) &
+     any(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))) {
+    table[table==""]=NA
+    table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
+    row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
+    for (i in 1:nrow(row1)) {
+        if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
+        else {
+            row1 = row1[i,1]
+            break
+        }
+    }
+    if (class(row1) == "matrix") {row1 = row1[1,1]}
+    row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}), arr.ind=T)
+    for (i in 1:nrow(row2)) {
+        if (is.na(table[row2[i,1],row2[i,2]+1])) {}
+        else {
+            row2 = row2[i,1]
+            break
+        }
+    }
+    if (class(row2) == "matrix") {row2 = row2[1,1]}
+    row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}), arr.ind=T)
+    for (i in 1:nrow(row3)) {
+        if (is.na(table[row3[i,1],row3[i,2]+1])) {}
+        else {
+            row3 = row3[i,1]
+            break
+        }
+    }
+    if (class(row3) == "matrix") {row3 = row3[1,1]}
+    row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}), arr.ind=T)
+    for (i in 1:nrow(row4)) {
+        if (is.na(table[row4[i,1],row4[i,2]+1])) {}
+        else {
+            row4 = row4[i,1]
+            break
+        }
+    }
+    if (class(row4) == "matrix") {row4 = row4[1,1]}
+    table = table[c(row3,row4,row2,row1),]
+    table[,1] = first_col
+    table[,1:2]
+}
+
+head(untidy_fin_hist)
