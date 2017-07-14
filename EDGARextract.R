@@ -27,7 +27,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "ALDR"
+ticker = "AOS"
 start_date = "2014-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -71,7 +71,7 @@ for (i in 1:nrow(table)) {
         new_url_index = paste0(base,CIK_code,"/",accno,"/",accno_code,"-index.htm")    
         
         if (table$`Filing Date`[i] >= start_date & (table$Filings[i] == "10-Q" | table$Filings[i] == "10-K") ) {
-            new_row = data.frame(date=table$`Filing Date`[i], url_base=new_url, url_index=new_url_index)
+            new_row = data.frame(date=table$`Filing Date`[i], form=table$Filings[i], url_base=new_url, url_index=new_url_index)
             url_data = rbind(url_data, new_row)
         }
 }
@@ -192,29 +192,25 @@ build_sales_hist = function(url_df) {
             print("Is a htm version.")
             data = find_table_R_htm(url_df[i,])
         }
-        else if (GET(xml_check)$status_code == 200) {
-            print("Is an xml version.")
-            data = find_table_R_xml(url_df[i,])  
-        }
         else {
             data == 0
         }
         
         if (data == 0) { 
-            print("Error! - No data returned")
+            print("Error! - No data returned - Missing or unknown revenue data")
             stop()
         }
         else {
             data_out = data
             data_out = data %>%
                 mutate(neg = apply(data[,1:2], 2, function(x) {grepl("\\(.*\\)",x)})[,2],
-                       no_sym = gsub("\\D","",.[[2]]),
+                       no_sym = ifelse(is.na(str_extract(.[[2]],"([0-9]*\\.[0-9]*)")),gsub("\\D","",.[[2]]),str_extract(.[[2]],"([0-9]*\\.[0-9]*)")),
                        fixed = ifelse(neg, paste0("-", no_sym), no_sym)) %>%
                 select(record, fixed)
             colnames(data_out)[2] = colnames(data)[2]
             data_out[,2] = as.numeric(data_out[,2])
             if (data$units[1] == "millions") {
-                data_out[,2] = data_out[,2] * 10**1   
+                data_out[,2] = data_out[,2] * 10**0   
             }
             else if (data$units[1] == "thousands") {
                 data_out[,2] = data_out[,2] * 10**-3   
@@ -318,96 +314,7 @@ find_table_R_htm = function(url_df_row) {
     return (0)
 }
 
-find_table_R_xml = function(url_df_row) {
-    style <- read_xml("temp/style.xslt", package = "xslt")
-    for (i in 1:200) {
-        R_url = paste0(url_df_row$url,"/R",as.character(i),".xml")
-        download.file(url=R_url, destfile = "temp/doc.xml", method="curl")
-        doc <- read_xml("temp/doc.xml", package = "xslt")
-        table <- xml_xslt(doc, style) %>% 
-            as.character %>%
-            read_html %>% 
-            html_nodes(".report") %>%
-            html_table(fill=TRUE) %>%
-            .[[1]]
-        if (names(table)[1] == names(table)[2]) {
-            table[,2] = NULL        
-        }
-        for (j in 1:ncol(table)) {
-                colnames(table)[j] = as.character(j)
-        }    
-        table = table %>%
-            apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
-            as.data.frame(stringsAsFactors=FALSE) %>%
-            mutate_if(is.character, tolower) %>%
-            apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
-            as.data.frame(stringsAsFactors=FALSE)
-        
-        if (any(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)})) &
-            any(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)})) &
-            any(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)})) &
-            any(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))) {
-            table[table==""]=NA
-            table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
-            if (any(apply(table, 2, function(x) {grepl(regex_units_mil, x, ignore.case = TRUE)}))) {
-                units = "millions"    
-            }
-            else if (any(apply(table, 2, function(x) {grepl(regex_units_th, x, ignore.case = TRUE)}))) {
-                units = "thousands"
-            }
-            else {
-                units = "unknown"  
-            }
-            row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
-            for (i in 1:nrow(row1)) {
-                if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
-                else {
-                    row1 = row1[i,1]
-                    break
-                }
-            }
-            if (class(row1) == "matrix") {row1 = row1[1,1]}
-            row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}), arr.ind=T)
-            for (i in 1:nrow(row2)) {
-                if (is.na(table[row2[i,1],row2[i,2]+1])) {}
-                else {
-                    row2 = row2[i,1]
-                    break
-                }
-            }
-            if (class(row2) == "matrix") {row2 = row2[1,1]}
-            row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}), arr.ind=T)
-            for (i in 1:nrow(row3)) {
-                if (is.na(table[row3[i,1],row3[i,2]+1])) {}
-                else {
-                    row3 = row3[i,1]
-                    break
-                }
-            }
-            if (class(row3) == "matrix") {row3 = row3[1,1]}
-            row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}), arr.ind=T)
-            for (i in 1:nrow(row4)) {
-                if (is.na(table[row4[i,1],row4[i,2]+1])) {}
-                else {
-                    row4 = row4[i,1]
-                    break
-                }
-            }
-            if (class(row4) == "matrix") {row4 = row4[1,1]}
-            table = table[c(row3,row4,row2,row1),]
-            table[,1] = first_col
-            table = cbind(table[,1:2], rep(units, 4))
-            names(table) = c("record", url_df_row$date, "units")
-            return(table)
-        }
-    }
-    return (0)
-}
-
-
 untidy_fin_hist = build_sales_hist(url_data)
-
-
 
 # write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
 # 
@@ -421,10 +328,6 @@ untidy_fin_hist = build_sales_hist(url_data)
 # fin_hist_q = fin_hist %>% filter(month(date) != 10)
 # fin_hist_k_to_q= fin_hist %>% mutate_if(is.numeric,funs(. - (lag(.,1) + lag(.,2) + lag(.,3))))  %>% filter(month(date) == 10)
 # final = rbind(fin_hist_q, fin_hist_k_to_q) %>% arrange(desc(date))
-# 
-# 
-# 
-
-
 
 head(untidy_fin_hist)
+head(url_data,4)
