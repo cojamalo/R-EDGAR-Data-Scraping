@@ -99,10 +99,26 @@ rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i
 # rm(form_urls)
 
 # Extract table within form matching key words
-earnings_list = c("^net loss$", "net earnings", "net income including noncontrolling interests", "consolidated net income","^net income \\(loss\\)$")
-gross_list = c("gross margin", "income from operations", "operating income", "income before income taxes", "operating income", "net income \\(loss\\) before equity in net loss of unconsolidated entity", "net income (loss) before equity in net loss of unconsolidated entity","total revenues and other income", "income \\(loss\\) before income taxes")
-rev_list = c("loss from operations","sales to customers", "sales and other operating revenue","net sales","total revenues","total revenues and other income","total net sales and revenue","total operating revenues","net revenues", "total revenue, net of interest expense", "revenue", "income \\(loss\\) from operations")
-cost_list = c("cost of products sold", "cost of sales", "total cost of revenues", "cost of revenue", "cost of revenues","operating expenses", "costs and other deductions", "costs and expenses", "interest expense", "total operating expenses", "total noninterest expense")
+earnings_list = c("^net loss$", "net earnings", 
+                  "net income including noncontrolling interests", 
+                  "consolidated net income","^net income \\(loss\\)$")
+gross_list = c("gross margin", "income from operations", "operating income", 
+               "income before income taxes", "operating income", 
+               "net income \\(loss\\) before equity in net loss of unconsolidated entity", 
+               "net income \\(loss\\) before equity in net loss of unconsolidated entity",
+               "total revenues and other income", "income \\(loss\\) before income taxes",
+               "net loss before equity in net loss of unconsolidated entity", "net loss",
+               "loss from operations", "income \\(loss\\) from operations")
+rev_list = c("total other income, net","total other income", "sales to customers", 
+             "sales and other operating revenue","net sales","total revenues",
+             "total revenues and other income","total net sales and revenue",
+             "total operating revenues","net revenues", 
+             "total revenue, net of interest expense", 
+             "^revenue$")
+cost_list = c("cost of products sold", "cost of sales", "total cost of revenues", 
+              "cost of revenue", "cost of revenues","operating expenses", 
+              "costs and other deductions", "costs and expenses", "interest expense", 
+              "total operating expenses", "total noninterest expense", "loss from operations")
 
 regex_cond1 = "^net income$"
 regex_cond2 = "gross profit"
@@ -112,6 +128,9 @@ for(word in earnings_list) { regex_cond1 = paste0(regex_cond1,"|",word) }
 for(word in gross_list) { regex_cond2 = paste0(regex_cond2,"|",word) }
 for(word in rev_list) { regex_cond3 = paste0(regex_cond3,"|",word) }
 for(word in cost_list) { regex_cond4 = paste0(regex_cond4,"|",word) }
+
+regex_units_mil = "\\$ in million|\\(usd \\$\\)in million"
+regex_units_th = "\\$ in thousand|\\(usd \\$\\)in thousand"
 
 # table_list = list()
 # for (i in 1:nrow(url_data)) {
@@ -163,10 +182,6 @@ for(word in cost_list) { regex_cond4 = paste0(regex_cond4,"|",word) }
 #         
 # }
 
-clean_final_table = function(x) {
-    
-}
-
 build_sales_hist = function(url_df) {
     first_col <<- c("revenue", "cost_of_revenue", "gross_profit", "net_earnings")
     for (i in 1:nrow(url_df)) {
@@ -185,15 +200,29 @@ build_sales_hist = function(url_df) {
             data == 0
         }
         
-        if (data == 0) {}
+        if (data == 0) { 
+            print("Error! - No data returned")
+            stop()
+        }
         else {
+            data_out = data
             data_out = data %>%
-                mutate(fix_neg = apply(table[,1:2], 2, function(x) {grepl("\\)|\\(",x)})[,2], 
-                       fixed = ifelse(fix_neg, sub("\\(","-", .[[2]]), .[[2]]), 
-                       fixed = ifelse(fix_neg, sub("\\)","",fixed), .[[2]]), 
-                       fixed = ifelse(fix_neg, gsub("[^-]\\D","",fixed), gsub("\\D","",fixed))) %>%
+                mutate(neg = apply(data[,1:2], 2, function(x) {grepl("\\(.*\\)",x)})[,2],
+                       no_sym = gsub("\\D","",.[[2]]),
+                       fixed = ifelse(neg, paste0("-", no_sym), no_sym)) %>%
                 select(record, fixed)
             colnames(data_out)[2] = colnames(data)[2]
+            data_out[,2] = as.numeric(data_out[,2])
+            if (data$units[1] == "millions") {
+                data_out[,2] = data_out[,2] * 10**1   
+            }
+            else if (data$units[1] == "thousands") {
+                data_out[,2] = data_out[,2] * 10**-3   
+            }
+            else {
+                print("Error! Units not found!") 
+                stop()
+            }
             
            if (!exists("output")) {
                output = data_out
@@ -233,6 +262,15 @@ find_table_R_htm = function(url_df_row) {
             any(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))) {
             table[table==""]=NA
             table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
+            if (any(apply(table, 2, function(x) {grepl(regex_units_mil, x, ignore.case = TRUE)}))) {
+                units = "millions"    
+            }
+            else if (any(apply(table, 2, function(x) {grepl(regex_units_th, x, ignore.case = TRUE)}))) {
+                units = "thousands"
+            }
+            else {
+                units = "unknown"  
+            }
             row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
             for (i in 1:nrow(row1)) {
                 if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
@@ -271,8 +309,9 @@ find_table_R_htm = function(url_df_row) {
             if (class(row4) == "matrix") {row4 = row4[1,1]}
             table = table[c(row3,row4,row2,row1),]
             table[,1] = first_col    
-            names(table) = c("record", url_df_row$date)
-            return(table[,1:2])
+            table = cbind(table[,1:2], rep(units, 4))
+            names(table) = c("record", url_df_row$date, "units")
+            return(table)
         }
     }
     print("No table found")
@@ -310,6 +349,15 @@ find_table_R_xml = function(url_df_row) {
             any(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))) {
             table[table==""]=NA
             table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
+            if (any(apply(table, 2, function(x) {grepl(regex_units_mil, x, ignore.case = TRUE)}))) {
+                units = "millions"    
+            }
+            else if (any(apply(table, 2, function(x) {grepl(regex_units_th, x, ignore.case = TRUE)}))) {
+                units = "thousands"
+            }
+            else {
+                units = "unknown"  
+            }
             row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
             for (i in 1:nrow(row1)) {
                 if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
@@ -348,8 +396,9 @@ find_table_R_xml = function(url_df_row) {
             if (class(row4) == "matrix") {row4 = row4[1,1]}
             table = table[c(row3,row4,row2,row1),]
             table[,1] = first_col
-            names(table) = c("record", url_df_row$date)
-            return(table[,1:2])
+            table = cbind(table[,1:2], rep(units, 4))
+            names(table) = c("record", url_df_row$date, "units")
+            return(table)
         }
     }
     return (0)
@@ -375,69 +424,7 @@ untidy_fin_hist = build_sales_hist(url_data)
 # 
 # 
 # 
-table = read_html("https://www.sec.gov/Archives/edgar/data/1423824/000156459017002198/R4.htm") %>%
-    html_nodes(".report") %>%
-    html_table(fill=TRUE) %>%
-    .[[1]]
-if (names(table)[1] == names(table)[2]) {
-    table[,2] = NULL
-}
-for (j in 1:ncol(table)) {
-    colnames(table)[j] = as.character(j)
-}
 
-table = table %>%
-    apply(2, function(x) {gsub("[\r\n]", "", x)}) %>%
-    as.data.frame(stringsAsFactors=FALSE) %>%
-    mutate_if(is.character, tolower) %>%
-    apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
-    as.data.frame(stringsAsFactors=FALSE)
 
-if (any(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)})) &
-     any(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)})) &
-     any(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)})) &
-     any(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}))) {
-    table[table==""]=NA
-    table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
-    row1=which(apply(table, 2, function(x) {grepl(regex_cond1, x, ignore.case = TRUE)}), arr.ind=T)
-    for (i in 1:nrow(row1)) {
-        if (is.na(table[row1[i,1] ,(row1[i,2])+1])) {}
-        else {
-            row1 = row1[i,1]
-            break
-        }
-    }
-    if (class(row1) == "matrix") {row1 = row1[1,1]}
-    row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}), arr.ind=T)
-    for (i in 1:nrow(row2)) {
-        if (is.na(table[row2[i,1],row2[i,2]+1])) {}
-        else {
-            row2 = row2[i,1]
-            break
-        }
-    }
-    if (class(row2) == "matrix") {row2 = row2[1,1]}
-    row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}), arr.ind=T)
-    for (i in 1:nrow(row3)) {
-        if (is.na(table[row3[i,1],row3[i,2]+1])) {}
-        else {
-            row3 = row3[i,1]
-            break
-        }
-    }
-    if (class(row3) == "matrix") {row3 = row3[1,1]}
-    row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}), arr.ind=T)
-    for (i in 1:nrow(row4)) {
-        if (is.na(table[row4[i,1],row4[i,2]+1])) {}
-        else {
-            row4 = row4[i,1]
-            break
-        }
-    }
-    if (class(row4) == "matrix") {row4 = row4[1,1]}
-    table = table[c(row3,row4,row2,row1),]
-    table[,1] = first_col
-    table[,1:2]
-}
 
 head(untidy_fin_hist)
