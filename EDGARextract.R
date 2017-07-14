@@ -331,6 +331,7 @@ find_table_R_htm = function(url_df_row) {
             names(table) = c("record", url_df_row$date, "units")
             return(table)
         }
+    }
     print("No table found")
     return (0)
 }
