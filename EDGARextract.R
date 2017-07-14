@@ -163,6 +163,9 @@ for(word in cost_list) { regex_cond4 = paste0(regex_cond4,"|",word) }
 #         
 # }
 
+clean_final_table = function(x) {
+    
+}
 
 build_sales_hist = function(url_df) {
     first_col <<- c("revenue", "cost_of_revenue", "gross_profit", "net_earnings")
@@ -184,7 +187,7 @@ build_sales_hist = function(url_df) {
         
         if (data == 0) {}
         else {
-            data[,2] = ifelse(grepl("")
+            ### Need to deal with negatives expressed as (.*) and keeping "-"
             data[,2] = as.numeric(gsub("\\D", "", data[,2]))
            if (!exists("output")) {
                output = data
