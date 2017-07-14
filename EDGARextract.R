@@ -106,7 +106,7 @@ gross_list = c("gross margin", "income from operations", "operating income",
                "income before income taxes", "operating income", 
                "net income \\(loss\\) before equity in net loss of unconsolidated entity", 
                "net income \\(loss\\) before equity in net loss of unconsolidated entity",
-               "total revenues and other income", "income \\(loss\\) before income taxes",
+               "income \\(loss\\) before income taxes",
                "net loss before equity in net loss of unconsolidated entity", "net loss",
                "loss from operations", "income \\(loss\\) from operations")
 rev_list = c("total other income, net","total other income", "sales to customers", 
@@ -118,16 +118,28 @@ rev_list = c("total other income, net","total other income", "sales to customers
 cost_list = c("cost of products sold", "cost of sales", "total cost of revenues", 
               "cost of revenue", "cost of revenues","operating expenses", 
               "costs and other deductions", "costs and expenses", "interest expense", 
-              "total operating expenses", "total noninterest expense", "loss from operations")
+              "total operating expenses", "total noninterest expense", "loss from operations",
+              "merchandise costs")
+
+eps_list = c("diluted \\(in dollars per share\\)", "^diluted$",
+             "net loss per share of common stock attributable to common stockholders, basic and diluted",
+             "net loss per share of common stock, basic and diluted",
+             "net income \\(loss\\) per share of common stock, diluted",
+             "diluted net earnings per share of common stock",
+             "diluted net earnings \\(loss\\) per share of common stock",
+             "earnings per common share - assuming dilution \\(dollars\\)",
+             "diluted earnings per common share")
 
 regex_cond1 = "^net income$"
 regex_cond2 = "gross profit"
 regex_cond3 = "total revenue"
 regex_cond4 = "total cost of revenue"
+regex_cond5 = "^diluted \\(per share\\)$"
 for(word in earnings_list) { regex_cond1 = paste0(regex_cond1,"|",word) }
 for(word in gross_list) { regex_cond2 = paste0(regex_cond2,"|",word) }
 for(word in rev_list) { regex_cond3 = paste0(regex_cond3,"|",word) }
 for(word in cost_list) { regex_cond4 = paste0(regex_cond4,"|",word) }
+for(word in eps_list) { regex_cond5 = paste0(regex_cond5,"|",word) }
 
 regex_units_mil = "\\$ in million|\\(usd \\$\\)in million"
 regex_units_th = "\\$ in thousand|\\(usd \\$\\)in thousand"
@@ -183,7 +195,7 @@ regex_units_th = "\\$ in thousand|\\(usd \\$\\)in thousand"
 # }
 
 build_sales_hist = function(url_df) {
-    first_col <<- c("revenue", "cost_of_revenue", "gross_profit", "net_earnings")
+    first_col <<- c("revenue_$mil", "net_earnings_$mil", "diluted_eps_$share")
     for (i in 1:nrow(url_df)) {
         htm_check = paste0(url_df$url_base[i],"/R1.htm")
         xml_check = paste0(url_df$url_base[i],"/R1.xml")
@@ -202,18 +214,22 @@ build_sales_hist = function(url_df) {
         }
         else {
             data_out = data
+            
             data_out = data %>%
                 mutate(neg = apply(data[,1:2], 2, function(x) {grepl("\\(.*\\)",x)})[,2],
-                       no_sym = ifelse(is.na(str_extract(.[[2]],"([0-9]*\\.[0-9]*)")),gsub("\\D","",.[[2]]),str_extract(.[[2]],"([0-9]*\\.[0-9]*)")),
+                       no_sym = ifelse(is.na(str_extract(.[[2]],"([0-9]*\\.[0-9]*|[0-9]*,[0-9]*\\.[0-9]*|[0-9]*,[0-9]*,[0-9]*\\.[0-9]*)")),
+                                       gsub("\\D","",.[[2]]),
+                                       str_extract(.[[2]],"([0-9]*\\.[0-9]*|[0-9]*,[0-9]*\\.[0-9]*|[0-9]*,[0-9]*,[0-9]*\\.[0-9]*)")),
+                       no_sym = gsub(",","",no_sym),
                        fixed = ifelse(neg, paste0("-", no_sym), no_sym)) %>%
                 select(record, fixed)
             colnames(data_out)[2] = colnames(data)[2]
             data_out[,2] = as.numeric(data_out[,2])
             if (data$units[1] == "millions") {
-                data_out[,2] = data_out[,2] * 10**0   
+                data_out[1:2,2] = data_out[1:2,2] * 10**0 
             }
             else if (data$units[1] == "thousands") {
-                data_out[,2] = data_out[,2] * 10**-3   
+                data_out[1:2,2] = data_out[1:2,2] * 10**-3 
             }
             else {
                 print("Error! Units not found!") 
@@ -276,15 +292,7 @@ find_table_R_htm = function(url_df_row) {
                 }
             }
             if (class(row1) == "matrix") {row1 = row1[1,1]}
-            row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}), arr.ind=T)
-            for (i in 1:nrow(row2)) {
-                if (is.na(table[row2[i,1],row2[i,2]+1])) {}
-                else {
-                    row2 = row2[i,1]
-                    break
-                }
-            }
-            if (class(row2) == "matrix") {row2 = row2[1,1]}
+            #row2=which(apply(table, 2, function(x) {grepl(regex_cond2, x, ignore.case = TRUE)}), arr.ind=T)
             row3=which(apply(table, 2, function(x) {grepl(regex_cond3, x, ignore.case = TRUE)}), arr.ind=T)
             for (i in 1:nrow(row3)) {
                 if (is.na(table[row3[i,1],row3[i,2]+1])) {}
@@ -294,18 +302,32 @@ find_table_R_htm = function(url_df_row) {
                 }
             }
             if (class(row3) == "matrix") {row3 = row3[1,1]}
-            row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}), arr.ind=T)
-            for (i in 1:nrow(row4)) {
-                if (is.na(table[row4[i,1],row4[i,2]+1])) {}
+            #row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}), arr.ind=T)
+            row5=which(apply(table, 2, function(x) {grepl(regex_cond5, x, ignore.case = TRUE)}), arr.ind=T)
+            found = FALSE
+            for (i in 1:nrow(row5)) {
+                if (is.na(table[row5[i,1],row5[i,2]+1])) {
+                }
                 else {
-                    row4 = row4[i,1]
+                    row5 = row5[i,1]
+                    found = TRUE
                     break
                 }
             }
-            if (class(row4) == "matrix") {row4 = row4[1,1]}
-            table = table[c(row3,row4,row2,row1),]
+            if(found == FALSE) {
+                for (i in 1:nrow(row5)) {
+                    for (j in 1:4) {
+                        if(!is.na(table[row5[i,1]+j,row5[i,2]+1])) {
+                            row5 = row5[i,1]+j
+                            break
+                        }   
+                    }
+                }
+            }    
+            if (class(row5) == "matrix") {row5 = row5[1,1]}
+            table = table[c(row3,row1,row5),]
             table[,1] = first_col    
-            table = cbind(table[,1:2], rep(units, 4))
+            table = cbind(table[,1:2], rep(units, 3))
             names(table) = c("record", url_df_row$date, "units")
             return(table)
         }
