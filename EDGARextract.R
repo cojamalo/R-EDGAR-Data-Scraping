@@ -1,5 +1,3 @@
-library(xslt)
-library(htmltab)
 library(tidyverse)
 library(stringr)
 library(RCurl)
@@ -27,7 +25,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "XOM"
+ticker = "INT"
 start_date = "2014-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -110,11 +108,11 @@ gross_list = c("gross margin", "income from operations", "operating income",
                "net loss before equity in net loss of unconsolidated entity", "net loss",
                "loss from operations", "income \\(loss\\) from operations")
 rev_list = c("total other income, net","total other income", "sales to customers", 
-             "sales and other operating revenue","net sales","total revenues",
+             "sales and other operating revenue","total revenues",
              "total revenues and other income","total net sales and revenue",
-             "total operating revenues","net revenues", 
+             "total operating revenues","net revenues", "net sales",
              "total revenue, net of interest expense", 
-             "^revenue$")
+             "^revenue$", "revenues, total", "^revenues$")
 cost_list = c("cost of products sold", "cost of sales", "total cost of revenues", 
               "cost of revenue", "cost of revenues","operating expenses", 
               "costs and other deductions", "costs and expenses", "interest expense", 
@@ -128,7 +126,15 @@ eps_list = c("diluted \\(in dollars per share\\)", "^diluted$",
              "diluted net earnings per share of common stock",
              "diluted net earnings \\(loss\\) per share of common stock",
              "earnings per common share - assuming dilution \\(dollars\\)",
-             "diluted earnings per common share")
+             "diluted earnings per common share",
+             "diluted earnings \\(in dollars per share\\)",
+             "diluted \\(usd per share\\)", "diluted \\(earnings per share\\)",
+             "earnings per share, diluted", "basic \\(in usd per share\\)",
+             "diluted earnings per share attributable to",
+             "net loss per share - basic and diluted", "net income \\(loss\\) per share - diluted",
+             "assuming dilution \\(in dollars per share\\)",
+             "earnings per share asumming dilution \\(in dollars per share\\)",
+             "assuming dilution")
 
 regex_cond1 = "^net income$"
 regex_cond2 = "gross profit"
@@ -214,12 +220,11 @@ build_sales_hist = function(url_df) {
         }
         else {
             data_out = data
-            
             data_out = data %>%
                 mutate(neg = apply(data[,1:2], 2, function(x) {grepl("\\(.*\\)",x)})[,2],
-                       no_sym = ifelse(is.na(str_extract(.[[2]],"([0-9]*\\.[0-9]*|[0-9]*,[0-9]*\\.[0-9]*|[0-9]*,[0-9]*,[0-9]*\\.[0-9]*)")),
+                       no_sym = ifelse(is.na(str_extract(.[[2]],"([0-9]{1,3},)*[0-9]{1,3}\\.[0-9]*")),
                                        gsub("\\D","",.[[2]]),
-                                       str_extract(.[[2]],"([0-9]*\\.[0-9]*|[0-9]*,[0-9]*\\.[0-9]*|[0-9]*,[0-9]*,[0-9]*\\.[0-9]*)")),
+                                       str_extract(.[[2]],"([0-9]{1,3},)*[0-9]{1,3}\\.[0-9]*")),
                        no_sym = gsub(",","",no_sym),
                        fixed = ifelse(neg, paste0("-", no_sym), no_sym)) %>%
                 select(record, fixed)
@@ -232,11 +237,16 @@ build_sales_hist = function(url_df) {
                 data_out[1:2,2] = data_out[1:2,2] * 10**-3 
             }
             else {
-                print("Error! Units not found!") 
-                stop()
+                data_out[1:2,2] = data_out[1:2,2] * 10**-6
+                print("Warning! Units not explicately found!") 
+                
             }
+            data_out[,2] = as.character(data_out[,2])
+            form_row = data.frame("form",url_df$form[i])
+            names(form_row) = names(data_out)
+            data_out = bind_rows(form_row,data_out)
             
-           if (!exists("output")) {
+            if (!exists("output")) {
                output = data_out
            }
            else {
@@ -268,10 +278,11 @@ find_table_R_htm = function(url_df_row) {
             apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
             as.data.frame(stringsAsFactors=FALSE)
         
-        if (any(apply(table, 2, function(x) {str_detect(x, regex_cond1)})) &
-            any(apply(table, 2, function(x) {str_detect(x, regex_cond2)})) &
-            any(apply(table, 2, function(x) {str_detect(x, regex_cond3)})) &
-            any(apply(table, 2, function(x) {str_detect(x, regex_cond4)}))) {
+        if (any(apply(table, 2, function(x) {str_detect(x, regex_cond1)}),na.rm=TRUE) &
+            #any(apply(table, 2, function(x) {str_detect(x, regex_cond2)}),na.rm=TRUE) &
+            any(apply(table, 2, function(x) {str_detect(x, regex_cond3)}),na.rm=TRUE) 
+            #any(apply(table, 2, function(x) {str_detect(x, regex_cond4)}),na.rm=TRUE)
+            ) {
             table[table==""]=NA
             table=table[,!apply(table, 2, function(x) {mean(is.na(x))}) > 0.60]
             if (any(apply(table, 2, function(x) {grepl(regex_units_mil, x, ignore.case = TRUE)}))) {
@@ -302,28 +313,26 @@ find_table_R_htm = function(url_df_row) {
                 }
             }
             if (class(row3) == "matrix") {row3 = row3[1,1]}
+            if(str_detect(table, "net sales") & str_detect(table, "total revenue")) {
+                row3 = which(apply(table, 2, function(x) {str_detect(x, "total revenue")}), arr.ind=T)[1,1]
+            }
             #row4=which(apply(table, 2, function(x) {grepl(regex_cond4, x, ignore.case = TRUE)}), arr.ind=T)
             row5=which(apply(table, 2, function(x) {str_detect(x, regex_cond5)}), arr.ind=T)
-            found = FALSE
-            for (i in 1:nrow(row5)) {
-                if (is.na(table[row5[i,1],row5[i,2]+1])) {
-                }
-                else {
-                    row5 = row5[i,1]
-                    found = TRUE
-                    break
-                }
+            if (!is.na(table[row5[1,1],row5[1,2]+1])) {
+                row5 = row5[1,1]
             }
-            if(found == FALSE) {
+            else {
                 for (i in 1:nrow(row5)) {
-                    for (j in 1:4) {
+                    for (j in 1:3) {
                         if(!is.na(table[row5[i,1]+j,row5[i,2]+1])) {
                             row5 = row5[i,1]+j
+                            found = TRUE
                             break
                         }   
                     }
+                if (found) {break}    
                 }
-            }    
+            }
             if (class(row5) == "matrix") {row5 = row5[1,1]}
             table = table[c(row3,row1,row5),]
             table[,1] = first_col    
@@ -337,6 +346,7 @@ find_table_R_htm = function(url_df_row) {
 }
 
 untidy_fin_hist = build_sales_hist(url_data)
+rm(output)
 
 # write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
 # 
@@ -353,3 +363,4 @@ untidy_fin_hist = build_sales_hist(url_data)
 
 head(untidy_fin_hist)
 head(url_data,4)
+system(paste0("open -a Safari ", url_data$url_base[1],"/R2.htm"))
