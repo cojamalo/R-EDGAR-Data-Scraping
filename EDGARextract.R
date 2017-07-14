@@ -25,7 +25,7 @@ library(rvest)
 setwd("/Users/cojamalo/Documents/GitHub/R-EDGAR-Data-Scraping")
 
 ## Input settings
-ticker = "INT"
+ticker = "TECD"
 start_date = "2014-01-01" # full year date when xml and htm data started beign used
 
 # Global variables
@@ -99,7 +99,8 @@ rm(new_row, accno, action, base, CIK, CIK_code, count, directory, final, Find, i
 # Extract table within form matching key words
 earnings_list = c("^net loss$", "net earnings", 
                   "(net income attributable to)(?! noncontrolling interests)", 
-                  "consolidated net income","^net income \\(loss\\)$")
+                  "consolidated net income","^net income \\(loss\\)$",
+                  "net income \\(loss\\) attributable to parent")
 gross_list = c("gross margin", "income from operations", "operating income", 
                "income before income taxes", "operating income", 
                "net income \\(loss\\) before equity in net loss of unconsolidated entity", 
@@ -150,58 +151,8 @@ for(word in eps_list) { regex_cond5 = paste0(regex_cond5,"|",word) }
 regex_units_mil = "\\$ in million|\\(usd \\$\\)in million"
 regex_units_th = "\\$ in thousand|\\(usd \\$\\)in thousand"
 
-# table_list = list()
-# for (i in 1:nrow(url_data)) {
-#     #download.file(url_data$form_urls[i], destfile = "temp/temp_form.htm")
-#     form_data = read_html(url_data$form_urls[i]) %>%
-#         html_nodes("table") 
-#     for (j in 1:length(form_data)) {
-#         form_table = form_data[j] %>%
-#             html_table(fill=TRUE) %>%
-#             .[[1]] %>%
-#             apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
-#             as.data.frame(stringsAsFactors=FALSE) %>%
-#             mutate_if(is.character, tolower) %>%
-#             apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
-#             as.data.frame(stringsAsFactors=FALSE)
-#         if ((any(grepl(regex_cond1, form_table, ignore.case = TRUE)) & any(grepl(regex_cond2, form_table, ignore.case = TRUE)) & any(grepl(regex_cond3, form_table, ignore.case = TRUE)))) {
-#             print(url_data$form_urls[i])
-#             table_list[[url_data$form_urls[i]]] = form_table
-#             break
-#         }
-#     }
-# }
-# 
-# print(paste("All revenue tables found for all urls?:",as.character(nrow(url_data) == length(table_list))))
-# # Troubleshooting
-# url_data$form_urls[!(url_data$form_urls %in% names(table_list))]
-# 
-# # troubleshoot specific form
-# form_data = read_html("https://www.sec.gov/Archives/edgar/data/34088/000119312512078102/d257530d10k.htm") %>% html_nodes("table") 
-# 
-# for (j in 1:length(form_data)) {
-#     form_table = form_data[j] %>%
-#         html_table(fill=TRUE) %>%
-#         .[[1]] %>%
-#         apply(2, function(x) {gsub("[\r\n]", "", x)}) %>% 
-#         as.data.frame(stringsAsFactors=FALSE) %>%
-#         mutate_if(is.character, tolower) %>%
-#         apply(2, function(x) {gsub("\\s+", " ", str_trim(x))})  %>%
-#         as.data.frame(stringsAsFactors=FALSE)
-#     if ((any(grepl(regex_cond1, form_table, ignore.case = TRUE)) &
-#          any(grepl(regex_cond2, form_table, ignore.case = TRUE)) &
-#          any(grepl(regex_cond3, form_table, ignore.case = TRUE)) &
-#          any(grepl(regex_cond4, form_table, ignore.case = TRUE)))) {
-#         # check if any match 1st list
-#         print("Yes!")
-#         print(j)
-#          
-#     } 
-#         
-# }
-
 build_sales_hist = function(url_df) {
-    first_col <<- c("revenue_$mil", "net_earnings_$mil", "diluted_eps_$share")
+    first_col <<- c("revenue_mil_dol", "net_earnings_mil_dol", "diluted_eps_dol_per_share")
     for (i in 1:nrow(url_df)) {
         htm_check = paste0(url_df$url_base[i],"/R1.htm")
         xml_check = paste0(url_df$url_base[i],"/R1.xml")
@@ -345,22 +296,29 @@ find_table_R_htm = function(url_df_row) {
     return (0)
 }
 
-untidy_fin_hist = build_sales_hist(url_data)
+raw_fin_hist = build_sales_hist(url_data)
 rm(output)
+head(raw_fin_hist)
 
-# write.csv(untidy_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
-# 
-# library(data.table)
-# untidy_fin_hist = fread('untidy_fin_hist.csv')
-# untidy_fin_hist = untidy_fin_hist %>% tbl_df %>% gather(date, value, -record) %>% select(date, record, value) %>% filter(!is.na(value)) %>% spread(record, value)
-# unformated_fin_hist = untidy_fin_hist[,apply(untidy_fin_hist, 2, function(x) {mean(is.na(x))}) == 0]
-# library(lubridate)
-# unformated_fin_hist$date = gsub("\\.|[a-z]","", unformated_fin_hist$date) %>% ymd
-# fin_hist = unformated_fin_hist %>% mutate_if(is.character, funs(gsub("\\D|^\\.", "", .))) %>% mutate_if(is.character, as.numeric)
-# fin_hist_q = fin_hist %>% filter(month(date) != 10)
-# fin_hist_k_to_q= fin_hist %>% mutate_if(is.numeric,funs(. - (lag(.,1) + lag(.,2) + lag(.,3))))  %>% filter(month(date) == 10)
-# final = rbind(fin_hist_q, fin_hist_k_to_q) %>% arrange(desc(date))
+#write.csv(raw_fin_hist,file='untidy_fin_hist.csv', sep = ",", row.names = FALSE)
 
-head(untidy_fin_hist)
+library(data.table)
+library(lubridate)
+#raw_fin_hist = fread('untidy_fin_hist.csv')
+tidy_fin_hist = raw_fin_hist %>% tbl_df %>% 
+    gather(date, value, -record) %>% 
+    select(date, record, value) %>% 
+    #filter(!is.na(value)) %>% 
+    spread(record, value) %>%
+    select(date, form, revenue_mil_dol, net_earnings_mil_dol, diluted_eps_dol_per_share)
+tidy_fin_hist$date = ymd(tidy_fin_hist$date)
+tidy_fin_hist$form = factor(tidy_fin_hist$form)
+head(tidy_fin_hist)
+fin_hist = tidy_fin_hist %>% 
+    mutate_if(is.character, as.numeric) %>%
+    mutate_at(.vars = vars(revenue_mil_dol, net_earnings_mil_dol, diluted_eps_dol_per_share), .funs = funs(ifelse(form == "10-K", . - (lag(.,1) + lag(.,2) + lag(.,3)), .))) %>%
+    arrange(desc(date))
+
+head(fin_hist)
 head(url_data,4)
 system(paste0("open -a Safari ", url_data$url_base[1],"/R2.htm"))
