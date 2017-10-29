@@ -25,7 +25,7 @@ library(rvest)
 library(data.table)
 library(lubridate)
 
-## Set GLOBAL string references
+## Set GLOBAL CONSTANTS
 earnings_list = c("^net loss$", "net earnings", 
                   "(net income attributable to)(?! noncontrolling interests)", 
                   "consolidated net income","^net income \\(loss\\)$",
