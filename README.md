@@ -7,7 +7,7 @@ Title: Find 10-Q and 10-K Earnings Report Values - Revenue, Net Earnings, Dilute
 
 __Description:__
 Scraps EDGAR website to find 10-Q and 10-K information for Revenue,
-Net Earnings, and Dluted EPS on company earnings statements. Currently only designed to 
+Net Earnings, and Diluted EPS on company earnings statements. Currently only designed to 
 work for a only a select few tickers including:
 JNJ, AAPL, TSLA, FB, COST, XOM, GM, BAC, AAL, WYNN, WMT, QCOM
 
