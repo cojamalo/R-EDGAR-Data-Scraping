@@ -15,4 +15,7 @@ __Returns:__ a tidy data frame of 10-Q and 10-K. For each observation,
 #' returns: data, form type (10-Q, 10-K), revenue, netearnings, diluted EPS
 
 __Dependencies:__ tidyverse stringr RCurl httr rvest data.table lubridate
-Main Function Call: find_earnings_reports(ticker, start_date)
+
+__Main Function Call__: find_earnings_reports(ticker, start_date)
+
+__Example__: find_earnings_reports(ticker="AAPL")
