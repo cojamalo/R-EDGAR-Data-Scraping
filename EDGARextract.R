@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Scrapes EDGAR website to find 10-Q and 10-K information for Revenue,
-#' Net Earnings, and Dluted EPS on company earnings statements. Only designed to 
+#' Net Earnings, and Diluted EPS on company earnings statements. Only designed to 
 #' work for only a few tickers including:
 #' JNJ, AAPL, TSLA, FB, COST, XOM, GM, BAC, AAL, WYNN, WMT, QCOM
 #' @param ticker ticker symbol for company of interest
