@@ -3,7 +3,7 @@ Scripts for extracting financial data from EDGAR filings for public companies by
 
 This script is currently in development. It **does not** work for all tickers.
 
-Title: Find 10-Q and 10-K Earnings Report Values - Revenue, Net Earnings, Diluted EPS
+__Title:__ Find 10-Q and 10-K Earnings Report Values - Revenue, Net Earnings, Diluted EPS
 
 __Description:__
 Scraps EDGAR website to find 10-Q and 10-K information for Revenue,
